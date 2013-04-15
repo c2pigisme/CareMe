@@ -1,0 +1,39 @@
+{
+    "name": "CareMe",
+    "settings": {},
+    "xdsVersion": "2.2.0",
+    "xdsBuild": 908,
+    "schemaVersion": 1,
+    "upgradeVersion": 210000000499,
+    "framework": "touch21",
+    "topInstanceFileMap": {
+        "d51af612-441d-4a09-af13-de771639b81a": {
+            "paths": [
+                "metadata/view/MainView",
+                "app/view/override/MainView.js",
+                "app/view/MainView.js"
+            ],
+            "className": "MainView"
+        },
+        "e5a39361-0c0e-4f3d-8785-bf11581f5ca9": {
+            "paths": [
+                "metadata/resource/Library"
+            ],
+            "className": "Library"
+        }
+    },
+    "viewOrderMap": {
+        "view": [
+            "d51af612-441d-4a09-af13-de771639b81a"
+        ],
+        "store": [],
+        "controller": [],
+        "model": [],
+        "resource": [
+            "e5a39361-0c0e-4f3d-8785-bf11581f5ca9"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}

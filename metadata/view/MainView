@@ -1,0 +1,129 @@
+{
+    "type": "Ext.navigation.View",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "zIndex": 100,
+        "designer|userClassName": "MainView",
+        "designer|userAlias": "mainview",
+        "designer|initialView": true
+    },
+    "designerId": "d51af612-441d-4a09-af13-de771639b81a",
+    "cn": [
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "MyContainer",
+                "designer|displayName": "vMainLayout",
+                "layout": "hbox"
+            },
+            "designerId": "982c0bbb-8d31-4e09-8f45-e45d44d07b8b",
+            "cn": [
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": "",
+                        "width": "50%",
+                        "designer|userClassName": "MyContainer1",
+                        "designer|displayName": "leftBtnPanel",
+                        "layout": "vbox"
+                    },
+                    "designerId": "9b468827-5504-4b44-8af9-b7f88f7dbfcd",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "margin": "70% 10% 0% 20%",
+                                "padding": "25 0",
+                                "designer|userClassName": "MyButton",
+                                "designer|displayName": "iCare",
+                                "text": "iCare"
+                            },
+                            "designerId": "782fe522-d7f0-4b85-b98e-b61fb2758151"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "margin": "20% 10% 70% 20%",
+                                "padding": "25 0",
+                                "designer|userClassName": "MyButton1",
+                                "text": "Profile"
+                            },
+                            "designerId": "95160155-3bb5-4492-ba34-051c7ab463c1"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Container",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "width": "50%",
+                        "designer|userClassName": "MyContainer2",
+                        "designer|displayName": "rightBtnPanel",
+                        "layout": "vbox"
+                    },
+                    "designerId": "0df7b06d-956c-405c-b7d3-c3e1c37ca35d",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "margin": "70% 20% 0% 10%",
+                                "padding": "25 0",
+                                "designer|userClassName": "MyButton2",
+                                "text": "Carelendar"
+                            },
+                            "designerId": "518ebc4b-5728-46de-959e-3750ca485681"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "items",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "margin": "20% 20% 70% 10%",
+                                "padding": "25 0",
+                                "designer|userClassName": "MyButton3",
+                                "text": "History"
+                            },
+                            "designerId": "9cf3569a-6561-4356-a0c9-298555cfc3f2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
