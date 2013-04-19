@@ -1,0 +1,41 @@
+{
+    "type": "Ext.tab.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "CarePanel",
+        "designer|userAlias": "carepanel"
+    },
+    "designerId": "a57fcc2d-b665-4a60-b4ce-07d3a29f0a7d",
+    "cn": [
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "Tab 1",
+                "designer|userClassName": "MyContainer3"
+            },
+            "designerId": "e04b80b0-a400-4c43-ab83-80d806ef0b62"
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "title": "Tab 2",
+                "designer|userClassName": "MyContainer4"
+            },
+            "designerId": "03e4f133-9499-47ee-9e7c-95200b078b72"
+        }
+    ]
+}

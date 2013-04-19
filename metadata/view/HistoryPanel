@@ -1,0 +1,13 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "HistoryPanel",
+        "designer|userAlias": "historyPanel"
+    },
+    "designerId": "1fafb4d2-06f3-42c3-b4d9-32723a342382"
+}

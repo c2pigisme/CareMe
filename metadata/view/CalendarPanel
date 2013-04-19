@@ -1,0 +1,13 @@
+{
+    "type": "Ext.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "CalendarPanel",
+        "designer|userAlias": "calendarPanel"
+    },
+    "designerId": "f7e3b662-3830-4812-8295-2fb409172752"
+}

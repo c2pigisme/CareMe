@@ -1,0 +1,122 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "UIController"
+    },
+    "designerId": "fb00b353-fb0f-4c6c-b6be-18fe058eaa8e",
+    "cn": [
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onCareTap",
+                "fn": "onCareTap",
+                "implHandler": [
+                    "var me = this,care;\r",
+                    "\r",
+                    "care = Ext.create('CareMe.view.CarePanel', {title: 'iCare'});\r",
+                    "console.log(me);\r",
+                    "me.getMainView().push(care);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "mainview button[text='iCare']"
+            },
+            "designerId": "0ba968d9-84b4-4653-886a-023f2171e23c"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "mainView",
+                "designer|displayName": "mainView",
+                "ref": "mainView",
+                "selector": "mainview"
+            },
+            "designerId": "34dd9223-4040-46b3-af96-125028602179"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onProfileButtonTap",
+                "fn": "onProfileButtonTap",
+                "implHandler": [
+                    "var me = this,profile;\r",
+                    "\r",
+                    "profile = Ext.create('CareMe.view.ProfilePanel', {title: 'Profile'});\r",
+                    "me.getMainView().push(profile);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "mainview button[text='Profile']"
+            },
+            "designerId": "ca95f474-0fe2-4f05-b323-b1bd45f886dc"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onCarelendarButtonTap",
+                "fn": "onCarelendarButtonTap",
+                "implHandler": [
+                    "var me = this,calendar;\r",
+                    "\r",
+                    "calendar = Ext.create('CareMe.view.CalendarPanel', {title: 'Calendar'});\r",
+                    "me.getMainView().push(calendar);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "mainview button[text='Carelendar']"
+            },
+            "designerId": "8399bb06-8faa-43bd-b849-f289ec3d721d"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onHistoryButtonTap",
+                "fn": "onHistoryButtonTap",
+                "implHandler": [
+                    "var me = this,history;\r",
+                    "\r",
+                    "history = Ext.create('CareMe.view.HistoryPanel', {title: 'History'});\r",
+                    "me.getMainView().push(history);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "mainview button[text='History']"
+            },
+            "designerId": "54fa0b12-b23f-4d77-b70f-ad160d1fb3d5"
+        }
+    ]
+}

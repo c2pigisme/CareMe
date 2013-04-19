@@ -21,6 +21,7 @@
             },
             "codeClass": null,
             "userConfig": {
+                "container|pack": "end",
                 "designer|userClassName": "MyContainer",
                 "designer|displayName": "vMainLayout",
                 "layout": "hbox"
@@ -35,6 +36,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "container|pack": "center",
                         "height": "",
                         "width": "50%",
                         "designer|userClassName": "MyContainer1",
@@ -51,8 +53,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "margin": "70% 10% 0% 20%",
-                                "padding": "25 0",
+                                "height": 100,
+                                "margin": null,
+                                "padding": null,
+                                "width": 100,
                                 "designer|userClassName": "MyButton",
                                 "designer|displayName": "iCare",
                                 "text": "iCare"
@@ -67,8 +71,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "margin": "20% 10% 70% 20%",
-                                "padding": "25 0",
+                                "height": 100,
+                                "margin": null,
+                                "padding": null,
+                                "width": 100,
                                 "designer|userClassName": "MyButton1",
                                 "text": "Profile"
                             },
@@ -84,6 +90,7 @@
                     },
                     "codeClass": null,
                     "userConfig": {
+                        "container|pack": "center",
                         "width": "50%",
                         "designer|userClassName": "MyContainer2",
                         "designer|displayName": "rightBtnPanel",
@@ -99,8 +106,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "margin": "70% 20% 0% 10%",
-                                "padding": "25 0",
+                                "height": 100,
+                                "margin": null,
+                                "padding": null,
+                                "width": 100,
                                 "designer|userClassName": "MyButton2",
                                 "text": "Carelendar"
                             },
@@ -114,8 +123,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "margin": "20% 20% 70% 10%",
-                                "padding": "25 0",
+                                "height": 100,
+                                "margin": null,
+                                "padding": null,
+                                "width": 100,
                                 "designer|userClassName": "MyButton3",
                                 "text": "History"
                             },

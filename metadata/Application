@@ -7,9 +7,15 @@
     "codeClass": null,
     "userConfig": {
         "views": [
-            "MainView"
+            "MainView",
+            "CarePanel",
+            "CalendarPanel",
+            "HistoryPanel"
         ],
-        "name": "MyApp"
+        "controllers": [
+            "UIController"
+        ],
+        "name": "CareMe"
     },
     "designerId": "application"
 }

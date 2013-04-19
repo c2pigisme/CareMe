@@ -13,7 +13,7 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('MyApp.view.MainView', {
+Ext.define('CareMe.view.MainView', {
     extend: 'Ext.navigation.View',
     alias: 'widget.mainview',
 
@@ -23,6 +23,7 @@ Ext.define('MyApp.view.MainView', {
             {
                 xtype: 'container',
                 layout: {
+                    pack: 'end',
                     type: 'hbox'
                 },
                 items: [
@@ -31,19 +32,20 @@ Ext.define('MyApp.view.MainView', {
                         height: '',
                         width: '50%',
                         layout: {
+                            pack: 'center',
                             type: 'vbox'
                         },
                         items: [
                             {
                                 xtype: 'button',
-                                margin: '70% 10% 0% 20%',
-                                padding: '25 0',
+                                height: 100,
+                                width: 100,
                                 text: 'iCare'
                             },
                             {
                                 xtype: 'button',
-                                margin: '20% 10% 70% 20%',
-                                padding: '25 0',
+                                height: 100,
+                                width: 100,
                                 text: 'Profile'
                             }
                         ]
@@ -52,19 +54,20 @@ Ext.define('MyApp.view.MainView', {
                         xtype: 'container',
                         width: '50%',
                         layout: {
+                            pack: 'center',
                             type: 'vbox'
                         },
                         items: [
                             {
                                 xtype: 'button',
-                                margin: '70% 20% 0% 10%',
-                                padding: '25 0',
+                                height: 100,
+                                width: 100,
                                 text: 'Carelendar'
                             },
                             {
                                 xtype: 'button',
-                                margin: '20% 20% 70% 10%',
-                                padding: '25 0',
+                                height: 100,
+                                width: 100,
                                 text: 'History'
                             }
                         ]
