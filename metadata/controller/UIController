@@ -117,6 +117,160 @@
                 "designer|controlQuery": "mainview button[text='History']"
             },
             "designerId": "54fa0b12-b23f-4d77-b70f-ad160d1fb3d5"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onLogInButtonTap",
+                "fn": "onLogInButtonTap",
+                "implHandler": [
+                    "\r",
+                    "var _this = this, loginPanel, mainView, \r",
+                    "usernameField, passwordField, \r",
+                    "username, password, label;\r",
+                    "\r",
+                    "loginPanel = _this.getLoginPanel();\r",
+                    "mainView = _this.getMainView();\r",
+                    "\r",
+                    "usernameField = loginPanel.down('#userNameTextField');\r",
+                    "passwordField = loginPanel.down('#passwordTextField');\r",
+                    "label = loginPanel.down('#signInFailedLabel');\r",
+                    "\r",
+                    "username = usernameField.getValue();\r",
+                    "password = passwordField.getValue();\r",
+                    "label.hide();\r",
+                    "\r",
+                    "console.log('=====' + loginPanel);\r",
+                    "console.log('=====' + mainView);\r",
+                    "console.log('username : ' + username);\r",
+                    "console.log('password: ' + password);\r",
+                    "\r",
+                    "var task = Ext.create('Ext.util.DelayedTask', function () {\r",
+                    "    label.setHtml('');\r",
+                    "    _this.onSignIn(username, password);\r",
+                    "    usernameField.setValue('');\r",
+                    "    passwordField.setValue('');\r",
+                    "});\r",
+                    "task.delay(500);\r",
+                    "\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "loginpanel button[itemId='logInButton']"
+            },
+            "designerId": "e30c340f-7ade-4572-903b-ec71be3bb364"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "loginPanel",
+                "designer|displayName": "loginPanel",
+                "ref": "loginPanel",
+                "selector": "loginpanel"
+            },
+            "designerId": "1bd4cd35-59e5-450e-b850-1edc9a155514"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "getSlideLeftTransition",
+                "fn": "getSlideLeftTransition",
+                "implHandler": [
+                    "return { type: 'slide', direction: 'left' };\r",
+                    ""
+                ]
+            },
+            "designerId": "d6a5a27d-ba2c-455e-9dd5-cbede8e4be8a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "loginFailure",
+                "fn": "loginFailure",
+                "implHandler": [
+                    "var loginPanel, _this = this;\r",
+                    "loginPanel.showSignInFailedMessage(message);\r",
+                    "loginPanel.setMasked(false);\r",
+                    ""
+                ]
+            },
+            "designerId": "d2951133-31a7-44f5-a210-ef5a5c637638"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "loginSuccess",
+                "fn": "loginSuccess",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "24a57fde-1a4e-496d-b545-ae8fb5931b71"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onSignIn",
+                "fn": "onSignIn",
+                "designer|params": [
+                    "username",
+                    "password"
+                ],
+                "implHandler": [
+                    "var _this = this,\r",
+                    "    loginPanel = _this.getLoginPanel();\r",
+                    "\r",
+                    "console.log('-- onSignIn() --');\r",
+                    "\r",
+                    "if (username.length === 0 || password.length === 0) {\r",
+                    "  console.log(' onSignIn() - login failure!');\r",
+                    "  loginPanel.showSignInFailedMessage('Please enter your username and password.');\r",
+                    "  loginPanel.setMasked(false);\r",
+                    "  return;\r",
+                    "    \r",
+                    "} else {\r",
+                    "\r",
+                    "  console.log('onSignIn() - Signed in.');\r",
+                    "  loginPanel = _this.getLoginPanel();\r",
+                    "  mainView = _this.getMainView();\r",
+                    "  loginPanel.setMasked(false);\r",
+                    "  Ext.Viewport.animateActiveItem(mainView, _this.getSlideLeftTransition());\r",
+                    "}\r",
+                    ""
+                ]
+            },
+            "designerId": "37eeb082-33d4-4c89-9d1c-22268c800497"
         }
     ]
 }

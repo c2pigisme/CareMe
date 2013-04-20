@@ -8,8 +8,7 @@
     "userConfig": {
         "zIndex": 100,
         "designer|userClassName": "MainView",
-        "designer|userAlias": "mainview",
-        "designer|initialView": true
+        "designer|userAlias": "mainview"
     },
     "designerId": "d51af612-441d-4a09-af13-de771639b81a",
     "cn": [

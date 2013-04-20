@@ -10,12 +10,35 @@
             "MainView",
             "CarePanel",
             "CalendarPanel",
-            "HistoryPanel"
+            "HistoryPanel",
+            "LoginPanel"
         ],
         "controllers": [
             "UIController"
         ],
         "name": "CareMe"
     },
-    "designerId": "application"
+    "designerId": "application",
+    "cn": [
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "launch",
+                "fn": "launch",
+                "implHandler": [
+                    "Ext.Viewport.add([\r",
+                    "            { xtype: 'loginpanel' },\r",
+                    "            { xtype: 'mainview' }\r",
+                    "]);\r",
+                    ""
+                ]
+            },
+            "designerId": "2d6efb62-28b1-487a-8f4a-d2a050aba191"
+        }
+    ]
 }
