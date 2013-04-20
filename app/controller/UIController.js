@@ -112,7 +112,7 @@ Ext.define('CareMe.controller.UIController', {
             usernameField.setValue('');
             passwordField.setValue('');
         });
-        task.delay(300);
+        task.delay(500);
 
 
     },
@@ -122,7 +122,7 @@ Ext.define('CareMe.controller.UIController', {
         var task = Ext.create('Ext.util.DelayedTask', function () {
             _this.onRegisterCancel();
         });
-        task.delay(300);
+        task.delay(500);
 
     },
 
@@ -143,7 +143,7 @@ Ext.define('CareMe.controller.UIController', {
             _this.onRegisterSubmit(username, password);
         });
 
-        task.delay(300);
+        task.delay(500);
 
     },
 
@@ -152,7 +152,7 @@ Ext.define('CareMe.controller.UIController', {
         var task = Ext.create('Ext.util.DelayedTask', function () {
             _this.onRegister();
         });
-        task.delay(300);
+        task.delay(500);
 
     },
 
@@ -194,7 +194,45 @@ Ext.define('CareMe.controller.UIController', {
             loginPanel = _this.getLoginPanel();
             mainView = _this.getMainView();
             loginPanel.setMasked(false);
-            Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));
+            //===============
+            Ext.Ajax.request({
+                url: 'http://localhost:9000/login',
+                method: 'POST',
+                params: {
+                    'email':username,
+                    'password':password
+                },
+                success: function(response) {
+                    var text = response.responseText;
+                    var json = JSON.parse(text);
+                    if(json.status === "OK") {
+                        console.log('---- Login Ok ----');
+                        var mainView = _this.getMainView();
+                        Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
+                        var store = Ext.create('Ext.data.Store', {
+                            model: "CareMe.model.Session"
+                        });
+                        store.add({email: username});
+                        store.add({session: json.session});   
+                        console.log(store);
+                    } else {
+                        var text = response.responseText;
+                        var json = JSON.parse(text);
+                        loginPanel.showSignInFailedMessage(json.message);
+                        loginPanel.setMasked(false);            
+                        console.log(json);        
+                        //ERROR label
+                        console.log('Error login');
+                    }
+                }, 
+                failure : function(response) {
+                    Ext.Msg.alert('Error','Error while submitting the form');
+                    var text = response.responseText;
+                    var json = JSON.parse(text);
+                    console.log(json);      
+                }
+            });
+
         }
 
     },
@@ -215,6 +253,42 @@ Ext.define('CareMe.controller.UIController', {
 
         */
         //Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));
+
+        Ext.Ajax.request({
+            url: 'http://localhost:9000/register',
+            method: 'POST',
+            params: {
+                'u.email':username,
+                'u.password':password,
+                'u.name':'Demo User'
+            },
+            success: function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status === "OK") {
+                    var mainView = _this.getMainView();
+                    Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
+                    var store = Ext.create('Ext.data.Store', {
+                        model: "CareMe.model.Session"
+                    });
+                    store.add({email: username});
+                    store.add({session: json.session});   
+                    console.log(store);
+                } else {
+                    var text = response.responseText;
+                    var json = JSON.parse(text);
+                    console.log(json);        
+                    //ERROR label
+                    console.log('Error register');
+                }
+            }, 
+            failure : function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        });
     },
 
     onRegister: function() {

@@ -187,11 +187,11 @@
                     "message"
                 ],
                 "implHandler": [
-                    "console.log('-- showSignInFailedMessage --' + message);\r",
-                    "var label = this.down('#signInFailedLabel');\r",
-                    "console.log(' -- showSignInFailedMessage() : ' + label)\r",
-                    "label.setHtml(message);\r",
-                    "label.show();\r",
+                    "console.log('-- showSignInFailedMessage --' + message);",
+                    "var label = this.down('#signInFailedLabel');",
+                    "console.log(' -- showSignInFailedMessage() : ' + label)",
+                    "label.setHtml(message);",
+                    "label.show();",
                     ""
                 ]
             },

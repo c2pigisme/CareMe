@@ -6,6 +6,9 @@
     },
     "codeClass": null,
     "userConfig": {
+        "models": [
+            "Session"
+        ],
         "views": [
             "MainView",
             "CarePanel",
@@ -32,11 +35,22 @@
                 "designer|userClassName": "launch",
                 "fn": "launch",
                 "implHandler": [
-                    "Ext.Viewport.add([\r",
-                    "{ xtype: 'loginpanel' },\r",
-                    "{ xtype: 'mainview' },\r",
-                    "{ xtype: 'registerpanel' }\r",
-                    "]);\r",
+                    "Ext.Viewport.setMasked({",
+                    "   xtype: 'loadmask',",
+                    "   message: 'My Message'",
+                    "});",
+                    "new Ext.util.DelayedTask(function () {",
+                    "    Ext.Viewport.add([",
+                    "    { xtype: 'loginpanel' },",
+                    "    { xtype: 'mainview' },",
+                    "    { xtype: 'registerpanel' }",
+                    "    ]);",
+                    "    Ext.Viewport.add({",
+                    "        xclass: 'CareMe.view.LoginPanel'",
+                    "    });   ",
+                    "}).delay(1000);",
+                    "",
+                    "",
                     ""
                 ]
             },
