@@ -19,7 +19,8 @@ Ext.define('CareMe.controller.UIController', {
     config: {
         refs: {
             mainView: 'mainview',
-            loginPanel: 'loginpanel'
+            loginPanel: 'loginpanel',
+            registerPanel: 'registerpanel'
         },
 
         control: {
@@ -37,6 +38,15 @@ Ext.define('CareMe.controller.UIController', {
             },
             "loginpanel button[itemId='logInButton']": {
                 tap: 'onLogInButtonTap'
+            },
+            "registerpanel button[itemId='cancel']": {
+                tap: 'onCancelButtonTap'
+            },
+            "registerpanel button[itemId='registerSubmit']": {
+                tap: 'onRegisterSubmitButtonTap'
+            },
+            "loginpanel button[itemId='register']": {
+                tap: 'onRegisterButtonTap'
             }
         }
     },
@@ -102,14 +112,57 @@ Ext.define('CareMe.controller.UIController', {
             usernameField.setValue('');
             passwordField.setValue('');
         });
-        task.delay(500);
+        task.delay(300);
 
+
+    },
+
+    onCancelButtonTap: function(button, e, eOpts) {
+        var _this = this;
+        var task = Ext.create('Ext.util.DelayedTask', function () {
+            _this.onRegisterCancel();
+        });
+        task.delay(300);
+
+    },
+
+    onRegisterSubmitButtonTap: function(button, e, eOpts) {
+        var _this = this, usernameField, passwordField,
+            username, password;
+
+        regPanel = _this.getRegisterPanel();
+        mainView = _this.getMainView();
+
+        usernameField = regPanel.down('#userNameTextField');
+        passwordField = regPanel.down('#passwordTextField');
+
+        username = usernameField.getValue();
+        password = passwordField.getValue();
+
+        var task = Ext.create('Ext.util.DelayedTask', function () {
+            _this.onRegisterSubmit(username, password);
+        });
+
+        task.delay(300);
+
+    },
+
+    onRegisterButtonTap: function(button, e, eOpts) {
+        var _this = this;
+        var task = Ext.create('Ext.util.DelayedTask', function () {
+            _this.onRegister();
+        });
+        task.delay(300);
 
     },
 
     getSlideLeftTransition: function() {
         return { type: 'slide', direction: 'left' };
 
+    },
+
+    getTransitionEffect: function(type, direction) {
+        return { 'type': type, 'direction':  direction };
     },
 
     loginFailure: function() {
@@ -141,9 +194,48 @@ Ext.define('CareMe.controller.UIController', {
             loginPanel = _this.getLoginPanel();
             mainView = _this.getMainView();
             loginPanel.setMasked(false);
-            Ext.Viewport.animateActiveItem(mainView, _this.getSlideLeftTransition());
+            Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));
         }
 
+    },
+
+    onRegisterSubmit: function(username, password) {
+        var _this = this, registerPanel;
+
+        registerPanel = _this.getRegisterPanel();
+
+        console.log(' -- onRegisterSubmit() --');
+        /*
+        TODO:
+        1. ajax submit
+        2. verify result
+        - fail response then display error label
+        - simple verification
+        3. display main view
+
+        */
+        //Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));
+    },
+
+    onRegister: function() {
+        var _this = this, registerPanel;
+
+        registerPanel = _this.getRegisterPanel();
+
+        console.log(' -- onRegister() --');
+
+
+        Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));
+    },
+
+    onRegisterCancel: function() {
+        var _this = this, loginPanel;
+
+        loginPanel = _this.getLoginPanel();
+
+        console.log(' -- onRegisterCancel() --');
+
+        Ext.Viewport.animateActiveItem(loginPanel, _this.getTransitionEffect('slide', 'up'));
     }
 
 });

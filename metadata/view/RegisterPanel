@@ -1,0 +1,104 @@
+{
+    "type": "Ext.form.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "RegisterPanel",
+        "designer|userAlias": "registerpanel"
+    },
+    "designerId": "8f70ee8b-d62d-4503-ae01-74d6f359e869",
+    "cn": [
+        {
+            "type": "Ext.form.FieldSet",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "margin": "0px 10px",
+                "designer|userClassName": "MyFieldSet1",
+                "designer|displayName": "registerform",
+                "title": "Register"
+            },
+            "designerId": "03673898-e4a8-4a4e-bb50-eec766864e84",
+            "cn": [
+                {
+                    "type": "Ext.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "itemId": "userNameTextField",
+                        "designer|userClassName": "MyTextField1",
+                        "designer|displayName": "username",
+                        "label": "",
+                        "name": "userNameTextField",
+                        "placeHolder": "Username"
+                    },
+                    "designerId": "8827d872-32a3-4548-bd95-028f20b0106b"
+                },
+                {
+                    "type": "Ext.field.Password",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "itemId": "passwordTextField",
+                        "designer|userClassName": "MyPasswordField1",
+                        "designer|displayName": "password",
+                        "label": "",
+                        "name": "passwordTextField",
+                        "placeHolder": "Password"
+                    },
+                    "designerId": "720e6689-256c-447a-abaa-edf5d42330d7"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "bottom",
+                        "itemId": "cancel",
+                        "margin": "10px 0px",
+                        "padding": "10px",
+                        "ui": "action",
+                        "designer|userClassName": "MyButton6",
+                        "designer|displayName": "cancel",
+                        "text": "Go Back"
+                    },
+                    "designerId": "22f2d79c-7b33-4e3f-9597-7e727b003e61"
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "bottom",
+                        "itemId": "registerSubmit",
+                        "margin": "5px 0px",
+                        "padding": "10px",
+                        "ui": "action",
+                        "designer|userClassName": "MyButton7",
+                        "designer|displayName": "register",
+                        "text": "Done!"
+                    },
+                    "designerId": "8919052e-2b3a-445f-9c00-aa08b06b4101"
+                }
+            ]
+        }
+    ]
+}

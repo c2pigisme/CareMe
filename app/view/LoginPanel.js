@@ -66,7 +66,7 @@ Ext.define('CareMe.view.LoginPanel', {
                         xtype: 'button',
                         docked: 'bottom',
                         id: '',
-                        itemId: 'registerButton',
+                        itemId: 'register',
                         margin: '5px 0px',
                         padding: '10px',
                         ui: 'action',

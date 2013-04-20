@@ -206,6 +206,26 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|userClassName": "getTransitionEffect",
+                "fn": "getTransitionEffect",
+                "designer|params": [
+                    "type",
+                    "direction"
+                ],
+                "implHandler": [
+                    "return { 'type': type, 'direction':  direction };"
+                ]
+            },
+            "designerId": "66c3a44c-8241-4baa-b1ab-91a6b7bf6998"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
                 "designer|userClassName": "loginFailure",
                 "fn": "loginFailure",
                 "implHandler": [
@@ -254,23 +274,201 @@
                     "console.log('-- onSignIn() --');\r",
                     "\r",
                     "if (username.length === 0 || password.length === 0) {\r",
-                    "  console.log(' onSignIn() - login failure!');\r",
-                    "  loginPanel.showSignInFailedMessage('Please enter your username and password.');\r",
-                    "  loginPanel.setMasked(false);\r",
-                    "  return;\r",
-                    "    \r",
+                    "    console.log(' onSignIn() - login failure!');\r",
+                    "    loginPanel.showSignInFailedMessage('Please enter your username and password.');\r",
+                    "    loginPanel.setMasked(false);\r",
+                    "    return;\r",
+                    "\r",
                     "} else {\r",
                     "\r",
-                    "  console.log('onSignIn() - Signed in.');\r",
-                    "  loginPanel = _this.getLoginPanel();\r",
-                    "  mainView = _this.getMainView();\r",
-                    "  loginPanel.setMasked(false);\r",
-                    "  Ext.Viewport.animateActiveItem(mainView, _this.getSlideLeftTransition());\r",
+                    "    console.log('onSignIn() - Signed in.');\r",
+                    "    loginPanel = _this.getLoginPanel();\r",
+                    "    mainView = _this.getMainView();\r",
+                    "    loginPanel.setMasked(false);\r",
+                    "    Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));\r",
                     "}\r",
                     ""
                 ]
             },
             "designerId": "37eeb082-33d4-4c89-9d1c-22268c800497"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onRegisterSubmit",
+                "fn": "onRegisterSubmit",
+                "designer|params": [
+                    "username",
+                    "password"
+                ],
+                "implHandler": [
+                    "var _this = this, registerPanel;\r",
+                    "\r",
+                    "registerPanel = _this.getRegisterPanel();\r",
+                    "\r",
+                    "console.log(' -- onRegisterSubmit() --');\r",
+                    "/*\r",
+                    "TODO:\r",
+                    "1. ajax submit\r",
+                    "2. verify result\r",
+                    "   - fail response then display error label\r",
+                    "   - simple verification\r",
+                    "3. display main view\r",
+                    "\r",
+                    "*/\r",
+                    "//Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));"
+                ]
+            },
+            "designerId": "e92e0b99-c61c-4092-aff7-5e4cadb62829"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onRegister",
+                "fn": "onRegister",
+                "implHandler": [
+                    "var _this = this, registerPanel;\r",
+                    "\r",
+                    "registerPanel = _this.getRegisterPanel();\r",
+                    "\r",
+                    "console.log(' -- onRegister() --');\r",
+                    "\r",
+                    "\r",
+                    "Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));"
+                ]
+            },
+            "designerId": "a0d51265-00c2-45c0-b836-e2c6b3718dc7"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onRegisterCancel",
+                "fn": "onRegisterCancel",
+                "implHandler": [
+                    "var _this = this, loginPanel;\r",
+                    "\r",
+                    "loginPanel = _this.getLoginPanel();\r",
+                    "\r",
+                    "console.log(' -- onRegisterCancel() --');\r",
+                    "\r",
+                    "Ext.Viewport.animateActiveItem(loginPanel, _this.getTransitionEffect('slide', 'up'));"
+                ]
+            },
+            "designerId": "087f58c7-ffa1-4bf6-bec1-2d7075c790ab"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "registerPanel",
+                "designer|displayName": "registerPanel",
+                "ref": "registerPanel",
+                "selector": "registerpanel"
+            },
+            "designerId": "80f5780c-cac4-4cc2-81b6-0984cb683ac1"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onCancelButtonTap",
+                "fn": "onCancelButtonTap",
+                "implHandler": [
+                    "var _this = this;\r",
+                    "var task = Ext.create('Ext.util.DelayedTask', function () {\r",
+                    "    _this.onRegisterCancel();\r",
+                    "});\r",
+                    "task.delay(500);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "registerpanel button[itemId='cancel']"
+            },
+            "designerId": "7f96389c-da03-467f-9e31-615fea9fbf78"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onRegisterSubmitButtonTap",
+                "fn": "onRegisterSubmitButtonTap",
+                "implHandler": [
+                    "var _this = this, usernameField, passwordField,\r",
+                    "    username, password;\r",
+                    "\r",
+                    "regPanel = _this.getRegisterPanel();\r",
+                    "mainView = _this.getMainView();\r",
+                    "\r",
+                    "usernameField = regPanel.down('#userNameTextField');\r",
+                    "passwordField = regPanel.down('#passwordTextField');\r",
+                    "\r",
+                    "username = usernameField.getValue();\r",
+                    "password = passwordField.getValue();\r",
+                    "\r",
+                    "var task = Ext.create('Ext.util.DelayedTask', function () {\r",
+                    "    _this.onRegisterSubmit(username, password);\r",
+                    "});\r",
+                    "\r",
+                    "task.delay(500);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "registerpanel button[itemId='registerSubmit']"
+            },
+            "designerId": "eeb07e18-c08c-4531-9c44-f84f09106c1a"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "onRegisterButtonTap",
+                "fn": "onRegisterButtonTap",
+                "implHandler": [
+                    "var _this = this;\r",
+                    "var task = Ext.create('Ext.util.DelayedTask', function () {\r",
+                    "    _this.onRegister();\r",
+                    "});\r",
+                    "task.delay(500);\r",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "loginpanel button[itemId='register']"
+            },
+            "designerId": "dad92f0c-d47b-4825-b092-c3dc77f0b8db"
         }
     ]
 }
