@@ -19,14 +19,43 @@ Ext.Loader.setConfig({
 });
 
 Ext.application({
-    views: [
-        'MainView'
+    models: [
+        'Session'
     ],
-    name: 'MyApp',
+    views: [
+        'MainView',
+        'CarePanel',
+        'CalendarPanel',
+        'HistoryPanel',
+        'LoginPanel',
+        'RegisterPanel'
+    ],
+    controllers: [
+        'UIController'
+    ],
+    name: 'CareMe',
 
     launch: function() {
 
-        Ext.create('MyApp.view.MainView', {fullscreen: true});
+        Ext.Viewport.setMasked({
+            xtype: 'loadmask',
+            message: 'My Message'
+        });
+        new Ext.util.DelayedTask(function () {
+            Ext.Viewport.setMasked(false);
+            Ext.Viewport.add([
+            { xtype: 'loginpanel' },
+            { xtype: 'mainview' },
+            { xtype: 'registerpanel' }
+            ]);
+            Ext.Viewport.add({
+                xclass: 'CareMe.view.LoginPanel'
+            });
+        }).delay(1000);
+
+
+
+        Ext.create('CareMe.view.LoginPanel', {fullscreen: true});
     }
 
 });

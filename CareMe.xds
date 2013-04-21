@@ -1,6 +1,10 @@
 {
     "name": "CareMe",
-    "settings": {},
+    "settings": {
+        "sdkPath": "/usr/local/nginx/html/src/sencha/architect/CareMe",
+        "urlPrefix": "",
+        "exportPath": ""
+    },
     "xdsVersion": "2.2.0",
     "xdsBuild": 908,
     "schemaVersion": 1,
@@ -20,17 +24,109 @@
                 "metadata/resource/Library"
             ],
             "className": "Library"
+        },
+        "1b94300c-9a16-42d6-af87-1ce2845d3a58": {
+            "paths": [
+                "metadata/view/CarePanel",
+                "app/view/override/CarePanel.js",
+                "app/view/CarePanel.js"
+            ],
+            "className": "CarePanel"
+        },
+        "f7e3b662-3830-4812-8295-2fb409172752": {
+            "paths": [
+                "metadata/view/CalendarPanel",
+                "app/view/override/CalendarPanel.js",
+                "app/view/CalendarPanel.js"
+            ],
+            "className": "CalendarPanel"
+        },
+        "1fafb4d2-06f3-42c3-b4d9-32723a342382": {
+            "paths": [
+                "metadata/view/HistoryPanel",
+                "app/view/override/HistoryPanel.js",
+                "app/view/HistoryPanel.js"
+            ],
+            "className": "HistoryPanel"
+        },
+        "66358889-7af2-4378-abaa-b6f2c49c2de1": {
+            "paths": [
+                "metadata/view/LoginPanel",
+                "app/view/override/LoginPanel.js",
+                "app/view/LoginPanel.js"
+            ],
+            "className": "LoginPanel"
+        },
+        "20a5da21-c978-4dc2-a051-3c3fc9962420": {
+            "paths": [
+                "metadata/view/ProfilePanel",
+                "app/view/override/ProfilePanel.js",
+                "app/view/ProfilePanel.js"
+            ],
+            "className": "ProfilePanel"
+        },
+        "8f70ee8b-d62d-4503-ae01-74d6f359e869": {
+            "paths": [
+                "metadata/view/RegisterPanel",
+                "app/view/override/RegisterPanel.js",
+                "app/view/RegisterPanel.js"
+            ],
+            "className": "RegisterPanel"
+        },
+        "a57fcc2d-b665-4a60-b4ce-07d3a29f0a7d": {
+            "paths": [
+                "metadata/view/CarePanel",
+                "app/view/override/CarePanel.js",
+                "app/view/CarePanel.js"
+            ],
+            "className": "CarePanel"
+        },
+        "fb00b353-fb0f-4c6c-b6be-18fe058eaa8e": {
+            "paths": [
+                "metadata/controller/UIController",
+                "app/controller/override/UIController.js",
+                "app/controller/UIController.js"
+            ],
+            "className": "UIController"
+        },
+        "2d18bb82-0423-400a-b9de-e3135ffd64c1": {
+            "paths": [
+                "metadata/resource/packager",
+                "",
+                "packager.json"
+            ],
+            "className": "packager"
+        },
+        "d5895bde-a864-456d-8442-386c6c6d0547": {
+            "paths": [
+                "metadata/model/Session",
+                "app/model/override/Session.js",
+                "app/model/Session.js"
+            ],
+            "className": "Session"
         }
     },
     "viewOrderMap": {
         "view": [
-            "d51af612-441d-4a09-af13-de771639b81a"
+            "d51af612-441d-4a09-af13-de771639b81a",
+            "1b94300c-9a16-42d6-af87-1ce2845d3a58",
+            "f7e3b662-3830-4812-8295-2fb409172752",
+            "1fafb4d2-06f3-42c3-b4d9-32723a342382",
+            "66358889-7af2-4378-abaa-b6f2c49c2de1",
+            "20a5da21-c978-4dc2-a051-3c3fc9962420",
+            "8f70ee8b-d62d-4503-ae01-74d6f359e869",
+            "a57fcc2d-b665-4a60-b4ce-07d3a29f0a7d"
         ],
         "store": [],
-        "controller": [],
-        "model": [],
+        "controller": [
+            "fb00b353-fb0f-4c6c-b6be-18fe058eaa8e"
+        ],
+        "model": [
+            "d5895bde-a864-456d-8442-386c6c6d0547"
+        ],
         "resource": [
-            "e5a39361-0c0e-4f3d-8785-bf11581f5ca9"
+            "e5a39361-0c0e-4f3d-8785-bf11581f5ca9",
+            "2d18bb82-0423-400a-b9de-e3135ffd64c1"
         ],
         "app": [
             "application"
