@@ -53,9 +53,21 @@ Ext.application({
             });
         }).delay(1000);
 
+        if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {
+            document.addEventListener("deviceready", this.mainLaunch, false);
+        } else {
+            this.mainLaunch();
+        }
+
+
 
 
         Ext.create('CareMe.view.LoginPanel', {fullscreen: true});
+    },
+
+    mainLaunch: function() {
+        navigator.notification.vibrate(1000);
+
     }
 
 });

@@ -52,11 +52,34 @@
                     "    });",
                     "}).delay(1000);",
                     "",
+                    "if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {",
+                    "        document.addEventListener(\"deviceready\", this.mainLaunch, false);",
+                    "    } else {",
+                    "        this.mainLaunch();",
+                    "}",
+                    "",
+                    "",
                     "",
                     ""
                 ]
             },
             "designerId": "2d6efb62-28b1-487a-8f4a-d2a050aba191"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "mainLaunch",
+                "fn": "mainLaunch",
+                "implHandler": [
+                    ""
+                ]
+            },
+            "designerId": "3c776875-d8fc-432d-8445-03ee994ee25b"
         }
     ]
 }
