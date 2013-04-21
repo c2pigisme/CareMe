@@ -73,14 +73,6 @@
             ],
             "className": "RegisterPanel"
         },
-        "a57fcc2d-b665-4a60-b4ce-07d3a29f0a7d": {
-            "paths": [
-                "metadata/view/CarePanel",
-                "app/view/override/CarePanel.js",
-                "app/view/CarePanel.js"
-            ],
-            "className": "CarePanel"
-        },
         "fb00b353-fb0f-4c6c-b6be-18fe058eaa8e": {
             "paths": [
                 "metadata/controller/UIController",
@@ -114,8 +106,7 @@
             "1fafb4d2-06f3-42c3-b4d9-32723a342382",
             "66358889-7af2-4378-abaa-b6f2c49c2de1",
             "20a5da21-c978-4dc2-a051-3c3fc9962420",
-            "8f70ee8b-d62d-4503-ae01-74d6f359e869",
-            "a57fcc2d-b665-4a60-b4ce-07d3a29f0a7d"
+            "8f70ee8b-d62d-4503-ae01-74d6f359e869"
         ],
         "store": [],
         "controller": [

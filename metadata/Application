@@ -37,8 +37,8 @@
                 "implHandler": [
                     "",
                     "Ext.Viewport.setMasked({",
-                    "   xtype: 'loadmask',",
-                    "   message: 'My Message'",
+                    "    xtype: 'loadmask',",
+                    "    message: 'My Message'",
                     "});",
                     "new Ext.util.DelayedTask(function () {",
                     "    Ext.Viewport.setMasked(false);",

@@ -194,9 +194,10 @@ Ext.define('CareMe.controller.UIController', {
             loginPanel = _this.getLoginPanel();
             mainView = _this.getMainView();
             loginPanel.setMasked(false);
+            Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));
             //===============
             Ext.Ajax.request({
-                url: 'http://localhost:9000/login',
+                url: 'http://192.168.0.103:9000/login',
                 method: 'POST',
                 params: {
                     'email':username,
@@ -208,7 +209,7 @@ Ext.define('CareMe.controller.UIController', {
                     if(json.status === "OK") {
                         console.log('---- Login Ok ----');
                         var mainView = _this.getMainView();
-                        Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
+                        //Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
                         var store = Ext.create('Ext.data.Store', {
                             model: "CareMe.model.Session"
                         });
@@ -255,7 +256,7 @@ Ext.define('CareMe.controller.UIController', {
         //Ext.Viewport.animateActiveItem(registerPanel, _this.getTransitionEffect('slide', 'down'));
 
         Ext.Ajax.request({
-            url: 'http://localhost:9000/register',
+            url: 'http://192.168.0.103:9000/register',
             method: 'POST',
             params: {
                 'u.email':username,
