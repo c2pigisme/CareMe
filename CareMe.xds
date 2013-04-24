@@ -96,6 +96,46 @@
                 "app/model/Session.js"
             ],
             "className": "Session"
+        },
+        "4d52b577-06f3-44a6-aa8d-08e3665f8a35": {
+            "paths": [
+                "metadata/view/MyContainer",
+                "app/view/override/MyContainer.js",
+                "app/view/MyContainer.js"
+            ],
+            "className": "MyContainer"
+        },
+        "830efd26-7959-4578-a376-9ce06f395aac": {
+            "paths": [
+                "metadata/store/SessionStore",
+                "app/store/override/SessionStore.js",
+                "app/store/SessionStore.js"
+            ],
+            "className": "SessionStore"
+        },
+        "23d29851-2c03-427b-ac5b-a50edb18027e": {
+            "paths": [
+                "metadata/view/ContactList",
+                "app/view/override/ContactList.js",
+                "app/view/ContactList.js"
+            ],
+            "className": "ContactList"
+        },
+        "34979052-e52d-47c3-bd0a-a6dad2de01b2": {
+            "paths": [
+                "metadata/view/CareList",
+                "app/view/override/CareList.js",
+                "app/view/CareList.js"
+            ],
+            "className": "CareList"
+        },
+        "3c605958-5e6e-441a-be01-3d890ea6b4e4": {
+            "paths": [
+                "metadata/view/ShareList",
+                "app/view/override/ShareList.js",
+                "app/view/ShareList.js"
+            ],
+            "className": "ShareList"
         }
     },
     "viewOrderMap": {
@@ -106,9 +146,15 @@
             "1fafb4d2-06f3-42c3-b4d9-32723a342382",
             "66358889-7af2-4378-abaa-b6f2c49c2de1",
             "20a5da21-c978-4dc2-a051-3c3fc9962420",
-            "8f70ee8b-d62d-4503-ae01-74d6f359e869"
+            "8f70ee8b-d62d-4503-ae01-74d6f359e869",
+            "4d52b577-06f3-44a6-aa8d-08e3665f8a35",
+            "23d29851-2c03-427b-ac5b-a50edb18027e",
+            "34979052-e52d-47c3-bd0a-a6dad2de01b2",
+            "3c605958-5e6e-441a-be01-3d890ea6b4e4"
         ],
-        "store": [],
+        "store": [
+            "830efd26-7959-4578-a376-9ce06f395aac"
+        ],
         "controller": [
             "fb00b353-fb0f-4c6c-b6be-18fe058eaa8e"
         ],

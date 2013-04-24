@@ -12,20 +12,6 @@
     "designerId": "d5895bde-a864-456d-8442-386c6c6d0547",
     "cn": [
         {
-            "type": "Ext.data.proxy.LocalStorage",
-            "reference": {
-                "name": "proxy",
-                "type": "object"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "designer|userClassName": "MyLocalStorageProxy",
-                "designer|displayName": "sessionStorage",
-                "id": ""
-            },
-            "designerId": "3d9ec255-bad6-465e-8dde-d8a5e64b9070"
-        },
-        {
             "type": "Ext.data.Field",
             "reference": {
                 "name": "fields",

@@ -12,7 +12,6 @@
         "ui": "",
         "designer|userClassName": "LoginPanel",
         "designer|userAlias": "loginpanel",
-        "designer|initialView": true,
         "layout": "fit"
     },
     "designerId": "66358889-7af2-4378-abaa-b6f2c49c2de1",

@@ -9,13 +9,20 @@
         "models": [
             "Session"
         ],
+        "stores": [
+            "SessionStore"
+        ],
         "views": [
             "MainView",
             "CarePanel",
             "CalendarPanel",
             "HistoryPanel",
             "LoginPanel",
-            "RegisterPanel"
+            "RegisterPanel",
+            "MyContainer",
+            "ContactList",
+            "CareList",
+            "ShareList"
         ],
         "controllers": [
             "UIController"
@@ -35,11 +42,7 @@
                 "designer|userClassName": "launch",
                 "fn": "launch",
                 "implHandler": [
-                    "",
-                    "Ext.Viewport.setMasked({",
-                    "    xtype: 'loadmask',",
-                    "    message: 'My Message'",
-                    "});",
+                    "var _this = this;",
                     "new Ext.util.DelayedTask(function () {",
                     "    Ext.Viewport.setMasked(false);",
                     "    Ext.Viewport.add([",
@@ -47,23 +50,83 @@
                     "    { xtype: 'mainview' },",
                     "    { xtype: 'registerpanel' }",
                     "    ]);",
-                    "    Ext.Viewport.add({",
-                    "        xclass: 'CareMe.view.LoginPanel'",
-                    "    });",
-                    "}).delay(1000);",
                     "",
-                    "if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {",
-                    "        document.addEventListener(\"deviceready\", this.mainLaunch, false);",
-                    "    } else {",
-                    "        this.mainLaunch();",
+                    "}).delay(500);",
+                    "",
+                    "var store = Ext.getStore(\"SessionStore\");",
+                    "",
+                    "",
+                    "",
+                    "store.load();",
+                    "",
+                    "debug = store;",
+                    "",
+                    "var session = store.first();",
+                    "",
+                    "if(session) {",
+                    "",
+                    "    Ext.Ajax.request({",
+                    "        url: 'http://192.168.0.103:9000/session',",
+                    "        method: 'POST',",
+                    "        params: {",
+                    "            'email':session.get(\"email\"),",
+                    "            'session': session.get(\"session\")",
+                    "        },",
+                    "        success: function(response) {",
+                    "            var text = response.responseText;",
+                    "            var json = JSON.parse(text);",
+                    "",
+                    "            if(json.status === \"OK\") {",
+                    "                Ext.Viewport.add({",
+                    "                    xclass: 'CareMe.view.MainView'",
+                    "                });",
+                    "            } else {",
+                    "                _this.showLogin();",
+                    "            }",
+                    "        },",
+                    "        failure : function(response) {",
+                    "            Ext.Msg.alert('Error','Error while submitting the form');",
+                    "            var text = response.responseText;",
+                    "            var json = JSON.parse(text);",
+                    "            console.log(json);      ",
+                    "        }",
+                    "    });",
+                    "} else {",
+                    "    _this.showLogin();",
                     "}",
                     "",
+                    "",
+                    "/*",
+                    "if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {",
+                    "document.addEventListener(\"deviceready\", this.mainLaunch, false);",
+                    "} else {",
+                    "this.mainLaunch();",
+                    "}",
+                    "*/",
                     "",
                     "",
                     ""
                 ]
             },
             "designerId": "2d6efb62-28b1-487a-8f4a-d2a050aba191"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "showLogin",
+                "fn": "showLogin",
+                "implHandler": [
+                    "    Ext.Viewport.add({",
+                    "        xclass: 'CareMe.view.LoginPanel'",
+                    "    });"
+                ]
+            },
+            "designerId": "54e344b6-3d2b-4a94-bbdf-90e24131b334"
         },
         {
             "type": "basicfunction",

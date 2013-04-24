@@ -18,10 +18,6 @@ Ext.define('CareMe.model.Session', {
     alias: 'model.sessionStorage',
 
     config: {
-        proxy: {
-            type: 'localstorage',
-            id: ''
-        },
         fields: [
             {
                 name: 'session'

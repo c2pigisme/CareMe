@@ -17,10 +17,10 @@
         "inputPath": "./",
         "outputPath": "../build/",
         "configuration": "Debug",
-        "platform": "AndroidEmulator",
+        "platform": "Android",
         "deviceType": "Universal",
         "sdkPath": "/Users/c2pig/Downloads/adt-bundle-mac-x86_64-20130219/sdk",
-        "androidAPILevel": "17",
+        "androidAPILevel": "15",
         "permissions": [
             "INTERNET",
             "ACCESS_NETWORK_STATE",

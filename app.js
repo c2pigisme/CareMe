@@ -22,13 +22,20 @@ Ext.application({
     models: [
         'Session'
     ],
+    stores: [
+        'SessionStore'
+    ],
     views: [
         'MainView',
         'CarePanel',
         'CalendarPanel',
         'HistoryPanel',
         'LoginPanel',
-        'RegisterPanel'
+        'RegisterPanel',
+        'MyContainer',
+        'ContactList',
+        'CareList',
+        'ShareList'
     ],
     controllers: [
         'UIController'
@@ -36,11 +43,7 @@ Ext.application({
     name: 'CareMe',
 
     launch: function() {
-
-        Ext.Viewport.setMasked({
-            xtype: 'loadmask',
-            message: 'My Message'
-        });
+        var _this = this;
         new Ext.util.DelayedTask(function () {
             Ext.Viewport.setMasked(false);
             Ext.Viewport.add([
@@ -48,25 +51,71 @@ Ext.application({
             { xtype: 'mainview' },
             { xtype: 'registerpanel' }
             ]);
-            Ext.Viewport.add({
-                xclass: 'CareMe.view.LoginPanel'
-            });
-        }).delay(1000);
 
-        if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {
-            document.addEventListener("deviceready", this.mainLaunch, false);
+        }).delay(500);
+
+        var store = Ext.getStore("SessionStore");
+
+
+
+        store.load();
+
+        debug = store;
+
+        var session = store.first();
+
+        if(session) {
+
+            Ext.Ajax.request({
+                url: 'http://192.168.0.103:9000/session',
+                method: 'POST',
+                params: {
+                    'email':session.get("email"),
+                    'session': session.get("session")
+                },
+                success: function(response) {
+                    var text = response.responseText;
+                    var json = JSON.parse(text);
+
+                    if(json.status === "OK") {
+                        Ext.Viewport.add({
+                            xclass: 'CareMe.view.MainView'
+                        });
+                    } else {
+                        _this.showLogin();
+                    }
+                },
+                failure : function(response) {
+                    Ext.Msg.alert('Error','Error while submitting the form');
+                    var text = response.responseText;
+                    var json = JSON.parse(text);
+                    console.log(json);      
+                }
+            });
         } else {
-            this.mainLaunch();
+            _this.showLogin();
         }
 
 
+        /*
+        if(Ext.browser.is.PhoneGap && !Ext.os.is.Desktop) {
+        document.addEventListener("deviceready", this.mainLaunch, false);
+        } else {
+        this.mainLaunch();
+        }
+        */
 
 
-        Ext.create('CareMe.view.LoginPanel', {fullscreen: true});
+
+    },
+
+    showLogin: function() {
+        Ext.Viewport.add({
+            xclass: 'CareMe.view.LoginPanel'
+        });
     },
 
     mainLaunch: function() {
-        navigator.notification.vibrate(1000);
 
     }
 

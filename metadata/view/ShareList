@@ -1,0 +1,33 @@
+{
+    "type": "Ext.dataview.List",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "ShareList",
+        "designer|userAlias": "sharelist",
+        "designer|displayName": "Sharing",
+        "designer|createAlias": "sharing"
+    },
+    "designerId": "3c605958-5e6e-441a-be01-3d890ea6b4e4",
+    "cn": [
+        {
+            "type": "Ext.XTemplate",
+            "reference": {
+                "name": "itemTpl",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|userClassName": "itemTpl",
+                "implHandler": [
+                    "<div>List Item {string}</div>"
+                ],
+                "designer|displayName": "itemTpl"
+            },
+            "designerId": "5266c64b-7894-4097-bb1b-9f0aebde001a"
+        }
+    ]
+}

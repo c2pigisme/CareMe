@@ -19,62 +19,81 @@ Ext.define('CareMe.view.MainView', {
 
     config: {
         zIndex: 100,
+        scrollable: 'vertical',
         items: [
             {
                 xtype: 'container',
-                layout: {
-                    pack: 'end',
-                    type: 'hbox'
-                },
+                title: 'Dashboard',
                 items: [
                     {
                         xtype: 'container',
-                        height: '',
-                        width: '50%',
                         layout: {
-                            pack: 'center',
-                            type: 'vbox'
+                            pack: 'end',
+                            type: 'hbox'
                         },
                         items: [
                             {
-                                xtype: 'button',
-                                height: 100,
-                                width: 100,
-                                text: 'iCare'
+                                xtype: 'container',
+                                height: '',
+                                width: '50%',
+                                layout: {
+                                    pack: 'center',
+                                    type: 'vbox'
+                                },
+                                items: [
+                                    {
+                                        xtype: 'button',
+                                        height: 100,
+                                        width: 100,
+                                        text: 'iCare'
+                                    },
+                                    {
+                                        xtype: 'button',
+                                        height: 100,
+                                        width: 100,
+                                        text: 'Profile'
+                                    }
+                                ]
                             },
                             {
-                                xtype: 'button',
-                                height: 100,
-                                width: 100,
-                                text: 'Profile'
-                            }
-                        ]
-                    },
-                    {
-                        xtype: 'container',
-                        width: '50%',
-                        layout: {
-                            pack: 'center',
-                            type: 'vbox'
-                        },
-                        items: [
-                            {
-                                xtype: 'button',
-                                height: 100,
-                                width: 100,
-                                text: 'Carelendar'
-                            },
-                            {
-                                xtype: 'button',
-                                height: 100,
-                                width: 100,
-                                text: 'History'
+                                xtype: 'container',
+                                width: '50%',
+                                layout: {
+                                    pack: 'center',
+                                    type: 'vbox'
+                                },
+                                items: [
+                                    {
+                                        xtype: 'button',
+                                        height: 100,
+                                        width: 100,
+                                        text: 'Carelendar'
+                                    },
+                                    {
+                                        xtype: 'button',
+                                        height: 100,
+                                        width: 100,
+                                        text: 'History'
+                                    }
+                                ]
                             }
                         ]
                     }
                 ]
             }
-        ]
+        ],
+        navigationBar: {
+            docked: 'top',
+            items: [
+                {
+                    xtype: 'button',
+                    align: 'right',
+                    iconCls: 'trash',
+                    iconMask: true,
+                    text: ''
+                }
+            ]
+        }
     }
 
 });

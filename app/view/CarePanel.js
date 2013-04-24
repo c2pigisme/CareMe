@@ -14,10 +14,33 @@
  */
 
 Ext.define('CareMe.view.CarePanel', {
-    extend: 'Ext.Panel',
+    extend: 'Ext.tab.Panel',
     alias: 'widget.carePanel',
 
+    requires: [
+        'CareMe.view.ContactList',
+        'CareMe.view.CareList',
+        'CareMe.view.ShareList'
+    ],
+
     config: {
+        tabBar: {
+            docked: 'top'
+        },
+        items: [
+            {
+                xtype: 'contactlist',
+                title: 'Contacts'
+            },
+            {
+                xtype: 'carelist',
+                title: 'Care list'
+            },
+            {
+                xtype: 'sharelist',
+                title: 'Share list'
+            }
+        ]
     }
 
 });
