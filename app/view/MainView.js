@@ -88,7 +88,7 @@ Ext.define('CareMe.view.MainView', {
                 {
                     xtype: 'button',
                     align: 'right',
-                    iconCls: 'trash',
+                    iconCls: 'delete_black2',
                     iconMask: true,
                     text: ''
                 }

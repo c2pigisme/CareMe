@@ -23,10 +23,6 @@ Ext.define('CareMe.store.SessionStore', {
 
     config: {
         clearOnPageLoad: false,
-        data: {
-            session: '7d952d4b-efd6-44ab-b09c-c4f4a1b5f1bd',
-            email: 'kokboon@gmail.com'
-        },
         model: 'CareMe.model.Session',
         storeId: 'SessionStore',
         proxy: {

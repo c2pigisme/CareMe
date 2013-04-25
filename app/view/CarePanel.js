@@ -15,8 +15,8 @@
 
 Ext.define('CareMe.view.CarePanel', {
     extend: 'Ext.tab.Panel',
-    alias: 'widget.carePanel',
-
+    alias: 'widget.carepanel',
+    xtype: 'carepanel',
     requires: [
         'CareMe.view.ContactList',
         'CareMe.view.CareList',
@@ -30,15 +30,18 @@ Ext.define('CareMe.view.CarePanel', {
         items: [
             {
                 xtype: 'contactlist',
-                title: 'Contacts'
+                title: 'Contacts',
+                iconCls: 'list'
             },
             {
                 xtype: 'carelist',
-                title: 'Care list'
+                title: 'Care list',
+                iconCls: 'heart'
             },
             {
                 xtype: 'sharelist',
-                title: 'Share list'
+                title: 'Share list',
+                iconCls: 'star'
             }
         ]
     }
