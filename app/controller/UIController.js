@@ -45,10 +45,11 @@ Ext.define('CareMe.controller.UIController', {
             "contactaction button[text='Share']": {
                 tap: 'onActionShareTap'
             },
-            "contactaction button[text='Cancel']": {
-                tap: 'onActionCancelTap'
-            }
+            "careaction button[text='Delete']": {
 
+            },
+            "shareaction button[text='Delete']": {
+            }
         }
     },
     getDevicePhoneNumber : function() {
@@ -56,9 +57,15 @@ Ext.define('CareMe.controller.UIController', {
     },
     onCareTap: function(button, e, eOpts) {
         var _this = this;
-        console.log(_this);
-        //
         _this.getMainView().push({xtype: 'carepanel'});
+        console.log('--- restful care store loading ----');
+        var carestore = Ext.getStore("CareStore");
+        carestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
+        carestore.load();
+        console.log('--- finnish restful care store ----');
+        var sharestore = Ext.getStore("ShareStore");
+        sharestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
+        sharestore.load();
     },
 
     onProfileButtonTap: function(button, e, eOpts) {
@@ -100,11 +107,7 @@ Ext.define('CareMe.controller.UIController', {
         username = usernameField.getValue();
         password = passwordField.getValue();
         label.hide();
-
-        console.log('=====' + loginPanel);
-        console.log('=====' + mainView);
-        console.log('username : ' + username);
-        console.log('password: ' + password);
+        
 
         var task = Ext.create('Ext.util.DelayedTask', function () {
             label.setHtml('');
@@ -189,21 +192,12 @@ Ext.define('CareMe.controller.UIController', {
             return;
 
         } else {
-
-            console.log('onSignIn() - Signed in.');
             loginPanel = _this.getLoginPanel();
             mainView = _this.getMainView();
             loginPanel.setMasked(false);
-            //===============
-            Ext.Ajax.request({
-                url: 'http://192.168.0.103:9000/login',
-                
-                method: 'POST',
-                params: {
-                    'email':username,
-                    'password':password
-                },
-                success: function(response) {
+            _this.getServerController().login(
+                {'email':username,'password':password},
+                function(response) {
                     var text = response.responseText;
                     var json = JSON.parse(text);
                     if(json.status === "OK") {
@@ -212,9 +206,10 @@ Ext.define('CareMe.controller.UIController', {
                         Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
                         var store = Ext.getStore("SessionStore");
                         var s = new CareMe.model.Session({'email': username, 'session': json.session});
+                        debug = store;
+                        store.clearData();
                         store.add(s);
-                        store.sync();
-                        
+                        store.sync();                
                     } else {
                         var text = response.responseText;
                         var json = JSON.parse(text);
@@ -225,14 +220,12 @@ Ext.define('CareMe.controller.UIController', {
                         console.log('Error login');
                     }
                 }, 
-                failure : function(response) {
+                function(response) {
                     Ext.Msg.alert('Error','Error while submitting the form');
                     var text = response.responseText;
                     var json = JSON.parse(text);
                     console.log(json);      
-                }
-            });
-
+                });
         }
 
     },
@@ -243,18 +236,10 @@ Ext.define('CareMe.controller.UIController', {
         registerPanel = _this.getRegisterPanel();
 
         console.log(' -- onRegisterSubmit() --');
-   
-        Ext.Ajax.request({
-            url: 'http://192.168.0.103:9000/register',
-            method: 'POST',
-            params: {
-                'u.email':username,
-                'u.password':password,
-                //TODO add this field
-                'u.name':'Demo User',
-                'u.phoneNumber': Ext.application.phoneNumber
-            },
-            success: function(response) {
+
+        _this.getServerController().register(
+            {'u.email':username, 'u.password':password, 'u.name':'Demo User','u.phoneNumber': Ext.application.phoneNumber},
+            function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
                 if(json.status === "OK") {
@@ -271,16 +256,16 @@ Ext.define('CareMe.controller.UIController', {
                     var json = JSON.parse(text);
                     console.log(json);        
                     //ERROR label
-                    console.log('Error register');
-                }
-            }, 
-            failure : function(response) {
+                    console.log('Error during registeration');
+                }                
+            },
+            function(response) {
                 Ext.Msg.alert('Error','Error while submitting the form');
                 var text = response.responseText;
                 var json = JSON.parse(text);
-                console.log(json);      
+                console.log(json);                  
             }
-        });
+        );
     },
 
     onRegister: function() {
@@ -315,28 +300,85 @@ Ext.define('CareMe.controller.UIController', {
             sheet = Ext.create('CareMe.view.ContactAction');
             sheet.setData(store.getAt(idx));
            _this.getMainView().add(sheet);
+        } else {
+            sheet.setData(store.getAt(idx));
+            sheet.show();
         }
     },
     onActionCareTap: function() {
         var _this = this, sheet = _this.getMainView().down('contactaction'),
             contact = sheet.getData(), json = contact.getData();
 
+        //TODO: MOCKED UP       
         json.sourcePhoneNumber = Ext.application.ownPhoneNumber || _this.getDevicePhoneNumber();
-        console.log(json);
-        console.log(Ext.encode(json));
+        _this.getServerController().addCare(
+            _this.getSessionTokenRequest({'json': Ext.encode(json)}),
+            function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status === "OK") {
+                    var carestore = Ext.getStore("CareStore");
+                    carestore.load();
+                } else {
+                    Ext.Msg.alert('Error',json.message); 
+                }
+            }, 
+            function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        );
     },
     onActionShareTap: function() {
         var _this = this, sheet = _this.getMainView().down('contactaction'),
-            contact = sheet.getData();
-        console.log('--- actionc share tap ----' + contact.get('phoneNumbers'));
-        debug = contact;
+            contact = sheet.getData(), json = contact.getData();
+        //TODO : mockup     
+        json.sourcePhoneNumber = Ext.application.ownPhoneNumber || _this.getDevicePhoneNumber();
+        console.log(Ext.encode(json));
+        _this.getServerController().addShare(
+            _this.getSessionTokenRequest({'json': Ext.encode(json)}),
+            function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status === "OK") {
+                    var sharestore = Ext.getStore("ShareStore");
+                    sharestore.load();
+                } else {
+                    Ext.Msg.alert('Error',json.message); 
+                }
+            }, 
+            function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        );
     },
-    onActionCancelTap: function() {
-        var _this = this, 
-            sheet = _this.getMainView().down('contactaction');
-        sheet.setData({});
-        _this.getMainView().remove(sheet);
+    onActionCareDeleteTap: function() {
+        //TODO -   _this.getServerController().delCare();
+    },
+    onActionShareDeleteTap: function() {
+        //TODO - _this.getServerController().delShare();
+    },
+    getSessionTokenRequest: function(req) {
+        var store = Ext.getStore("SessionStore");
+        store.load();
+        var session = store.first();         
+        var token = { 
+            'email':session.get("email"),
+            'session': session.get("session")  
+        };
+        if(typeof req === 'undefined') {
+            req = {};
+        }
+        return Ext.apply(token, req);
+    },
 
+    getServerController: function() {
+        return this.getApplication().getController('ServerController');
     }
 
 });

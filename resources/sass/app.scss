@@ -1,7 +1,3 @@
-$body-bg-color: #fbf5e6;
-$base-color: #efe1d0;
-$active-color: #aa3030;
-
 @import 'sencha-touch/default/all';
 
 // You may remove any of the following modules that you
@@ -20,13 +16,4 @@ $active-color: #aa3030;
 @include sencha-form;
 @include sencha-msgbox;
 
- 
-@include pictos-iconmask(delete_black2);
-@include pictos-iconmask(team);
-@include pictos-iconmask(list);
-@include pictos-iconmask(heart);
-@include pictos-iconmask(heart_circle);
-
-.contactlist .heart {
-	  @include pictos-iconmask(heart);
-}
+// Your custom code goes here...

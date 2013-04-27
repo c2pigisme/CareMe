@@ -77,7 +77,7 @@
      *  - Android
      *  - AndroidEmulator
      */
-    "platform": "Android",
+    "platform": "AndroidEmulator",
 
     /**
      * @cfg {String} deviceType
@@ -104,7 +104,7 @@
      * This is android API level, the version of Android SDK to use, you can read more about it here: http://developer.android.com/guide/appendix/api-levels.html.
      * Be sure to install corresponding platform API in android SDK manager (android_sdk/tools/android)
      */
-    "androidAPILevel": "15",
+    "androidAPILevel": "7",
 
     /**
      * @cfg {Array[String]} permissions

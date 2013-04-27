@@ -1,32 +1,19 @@
-Ext.define('CareMe.view.ContactAction', {
+Ext.define('CareMe.view.CareAction', {
 
     extend: 'Ext.ActionSheet',
     height: '300px',
     width: '300px',
-    xtype: 'contactaction',
+    xtype: 'careaction',
 
     config: {
-        refs: {
-            ctx: 'servercontroller',
-            mainView: 'mainview'
-        },
         items: [{
-                text: 'Care',
+                text: 'Delete',
                 ui  : 'action',
                 handler: function(e, b) {
                     var sheet = this.getParent();
                     sheet.setData({});
                     sheet.hide();
                 } 
-            }, 
-            {
-                text: 'Share',
-                ui  : 'action',
-                handler: function(e, b) {
-                    var sheet = this.getParent();
-                    sheet.setData({});
-                    sheet.hide();
-                }                 
             }, 
             {
                 text: 'Cancel',
