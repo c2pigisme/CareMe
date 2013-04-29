@@ -48,7 +48,11 @@ Ext.application({
           if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
                 document.addEventListener("deviceready", _this.onDeviceReady(), false);
             } else {
-                setTimeout(function() {_this.onDeviceReady();}, 1000);  
+                //MOCK UP
+                Ext.application.gcmId = "APA91bGFoFpAUeDZ2JBvUbhDv47cjasP--mxmR_vZh94PspUZI73oeNBGJ2xzkLZ4mtAwaK3rVUvNdabgLtoUWZz3XBoENYxS_eM6P0JPcJTvM7dYqxXlmymGmoB52QUEVMhApUUjgFgM6YOwSAC_HpJseglC5ChQA";
+                        ///TODO Remove later:
+                Ext.application.phoneNumber = '100000001'; 
+                setTimeout(function() {_this.onDeviceReady();}, 1000);
             }
         var store = Ext.getStore("SessionStore");
         store.load();
@@ -58,7 +62,7 @@ Ext.application({
         if(session) {
             debug = this.getController('ServerController');
             this.getController('ServerController').validateSession(
-                {'email':session.get("email"), 'session': session.get("session")},
+                {'email':session.get("email"), 'session': session.get("session"), 'gcmId':Ext.application.gcmId},
                 function(succResp) {
                     var text = succResp.responseText;
                     var json = JSON.parse(text);
@@ -104,8 +108,7 @@ Ext.application({
         var fields = ["*"];
         navigator.contacts.find(fields, onSuccess, onError, options);
 
-        ///TODO Remove later:
-        Ext.application.phoneNumber = '100000001'; 
+
 
         var onSucc = function(e) {
            console.log('****** successfully register GCM!! *******');
@@ -113,18 +116,11 @@ Ext.application({
         var onFail = function(e) {
             console.log('****** unable register GCM!! *******');
         };
-        var gcmEvents = function(e) {
+        window.gcmEvents = function(e) {
             var key = e.regid;
-            if(e.event === "registered") {
-                _this.fireEvent('register',  {'email':session.get("email"), 
-                    'session': session.get("session"), 
-                    'key':key, 'phone':Ext.application.phoneNumber});
-            } else if(e.event === "message") {
-            } else if(e.event === "error") {
-            } else {
-            }
+            Ext.application.gcmId = e.regid;
         }
-        window.plugins.GCM.register("1038123017901", gcmEvents, onSucc, onFail);        
+        window.plugins.GCM.register("1038123017901", "gcmEvents", onSucc, onFail);        
     }
 
 });

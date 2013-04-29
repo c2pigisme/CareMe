@@ -196,7 +196,7 @@ Ext.define('CareMe.controller.UIController', {
             mainView = _this.getMainView();
             loginPanel.setMasked(false);
             _this.getServerController().login(
-                {'email':username,'password':password},
+                {'email':username,'password':password,'gcmId':Ext.application.gcmId||''},
                 function(response) {
                     var text = response.responseText;
                     var json = JSON.parse(text);
@@ -209,7 +209,7 @@ Ext.define('CareMe.controller.UIController', {
                         debug = store;
                         store.clearData();
                         store.add(s);
-                        store.sync();                
+                        store.sync();
                     } else {
                         var text = response.responseText;
                         var json = JSON.parse(text);
@@ -238,7 +238,7 @@ Ext.define('CareMe.controller.UIController', {
         console.log(' -- onRegisterSubmit() --');
 
         _this.getServerController().register(
-            {'u.email':username, 'u.password':password, 'u.name':'Demo User','u.phoneNumber': Ext.application.phoneNumber},
+            {'u.email':username, 'u.password':password, 'u.name':'Demo User','u.phoneNumber': Ext.application.phoneNumber, 'u.gcmId':Ext.application.gcmId||''},
             function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
