@@ -3,14 +3,6 @@ Ext.define('CareMe.controller.ServerController', {
     xtype: 'servercontroller',
 
     config: {
-        refs: {
-            main: 'mainApp'
-        }, 
-        control: {
-            main: {
-                register: 'registerGCM'
-            }
-        }
     },
     getURL: function(url) {
     	debug = this.getApplication(); 
@@ -56,6 +48,14 @@ Ext.define('CareMe.controller.ServerController', {
         });
     },
     delCare: function(params, onSuccess, onFailure) {
+        var _this = this;
+        Ext.Ajax.request({
+            url: _this.getURL('/contact/care'),
+            method: 'DELETE',
+            params: params || {},
+            success: onSuccess, 
+            failure : onFailure     
+        });        
     },
     addShare: function(params, onSuccess, onFailure) {
     	var _this = this;
@@ -69,9 +69,50 @@ Ext.define('CareMe.controller.ServerController', {
 
     },
     delShare: function(params, onSuccess, onFailure) {
+        var _this = this;
+        Ext.Ajax.request({
+            url: _this.getURL('/contact/share'),
+            method: 'DELETE',
+            params: params || {},
+            success: onSuccess, 
+            failure : onFailure     
+        });        
     },
-    registerGCM: function(params) {
-        console.log(params);
+   approveShare: function(params, onSuccess, onFailure) {
+        var _this = this;
+        Ext.Ajax.request({
+            url: _this.getURL('/contact/share'),
+            method: 'PUT',
+            params: params || {},
+            success: onSuccess, 
+            failure : onFailure     
+        });        
+    },
+    addReminder: function(params, onSuccess, onFailure) {
+        var _this = this;
+        Ext.Ajax.request({
+            url: _this.getURL('/events'),
+            method: 'POST',
+            params: params || {},
+            success: onSuccess, 
+            failure : onFailure     
+        });              
+    },
+    shareReminder: function(params, onSuccess, onFailure) {
+        var _this = this;
+        Ext.Ajax.request({
+            url: _this.getURL('/events'),
+            method: 'PUT',
+            params: params || {},
+            success: onSuccess, 
+            failure : onFailure     
+        });              
+    },    
+    handleGCM: function(e) {
+        //UPDATE STORE
+        //UPDATE CARELENDER
+        //UPDATE ...
+        console.log(e);
     }
 
 });

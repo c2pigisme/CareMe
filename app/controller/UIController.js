@@ -1,13 +1,12 @@
 Ext.define('CareMe.controller.UIController', {
     extend: 'Ext.app.Controller',
-
     config: {
         refs: {
             mainView: 'mainview',
             loginPanel: 'loginpanel',
             registerPanel: 'registerpanel',
             contactlist: 'contactlist list',
-            carePanel: 'carepanel'
+            carelendar: 'calendarpanel',
         },
 
         control: {
@@ -35,10 +34,16 @@ Ext.define('CareMe.controller.UIController', {
             "loginpanel button[itemId='register']": {
                 tap: 'onRegisterButtonTap'
             },
-            'contactlist': {
+            'contactlist list': {
                  itemtap: 'onContactListItemSelected',
                  disclose: 'onListItemDisclose'
             },
+            'carelist list': {
+                 itemtap: 'onCareListItemSelected'
+            },
+            'sharelist list': {
+                 itemtap: 'onShareListItemSelected'
+            },           
             "contactaction button[text='Care']": {
                 tap: 'onActionCareTap'
             },
@@ -46,9 +51,26 @@ Ext.define('CareMe.controller.UIController', {
                 tap: 'onActionShareTap'
             },
             "careaction button[text='Delete']": {
-
+                tap: 'onActionCareDeleteTap'
             },
             "shareaction button[text='Delete']": {
+                tap: 'onActionShareDeleteTap'
+            },
+           "shareaction button[text='Approve']": {
+                tap: 'onActionShareApproveTap'
+            },
+            "calendarpanel button[itemId='remote']":{
+                tap: 'remoteReminder'  
+            },
+            "calendarpanel button[itemId='local']":{
+                tap: 'localReminder'
+            },
+            "reminderform textfield"  : {
+                clearfield : 'onClearSearch',
+                autocomplete: 'onSearchKeyUp'       
+            },
+            "calendaraction button[id='remindBtn']" : {
+                tap: 'handleReminder'
             }
         }
     },
@@ -58,14 +80,6 @@ Ext.define('CareMe.controller.UIController', {
     onCareTap: function(button, e, eOpts) {
         var _this = this;
         _this.getMainView().push({xtype: 'carepanel'});
-        console.log('--- restful care store loading ----');
-        var carestore = Ext.getStore("CareStore");
-        carestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
-        carestore.load();
-        console.log('--- finnish restful care store ----');
-        var sharestore = Ext.getStore("ShareStore");
-        sharestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
-        sharestore.load();
     },
 
     onProfileButtonTap: function(button, e, eOpts) {
@@ -78,8 +92,10 @@ Ext.define('CareMe.controller.UIController', {
 
     onCarelendarButtonTap: function(button, e, eOpts) {
         var me = this,calendar;
-        calendar = Ext.create('CareMe.view.CalendarPanel', {title: 'Calendar'});
-        me.getMainView().push(calendar);
+        console.log(Ext.eventStore);
+        Ext.eventStore = Ext.getStore('CarelendarStore');        
+       // calendar = Ext.create('CareMe.view.CalendarPanel', {title: 'Calendar'});
+        me.getMainView().push({xtype: 'calendarpanel'});
 
     },
 
@@ -158,12 +174,11 @@ Ext.define('CareMe.controller.UIController', {
         task.delay(500);
 
     },
+    //TODO : remove later
+    // getSlideLeftTransition: function() {
+    //     return { type: 'slide', direction: 'left' };
 
-    getSlideLeftTransition: function() {
-        return { type: 'slide', direction: 'left' };
-
-    },
-
+    // },
     getTransitionEffect: function(type, direction) {
         return { 'type': type, 'direction':  direction };
     },
@@ -200,16 +215,9 @@ Ext.define('CareMe.controller.UIController', {
                 function(response) {
                     var text = response.responseText;
                     var json = JSON.parse(text);
-                    if(json.status === "OK") {
+                    if(json.status) {
                         console.log('---- Login Ok ----');
-                        var mainView = _this.getMainView();
-                        Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
-                        var store = Ext.getStore("SessionStore");
-                        var s = new CareMe.model.Session({'email': username, 'session': json.session});
-                        debug = store;
-                        store.clearData();
-                        store.add(s);
-                        store.sync();
+                        _this.onLoginSucc(json, username);
                     } else {
                         var text = response.responseText;
                         var json = JSON.parse(text);
@@ -242,15 +250,16 @@ Ext.define('CareMe.controller.UIController', {
             function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
-                if(json.status === "OK") {
-                    var mainView = _this.getMainView();
-                    Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
-                    var store = Ext.create('Ext.data.Store', {
-                        model: "CareMe.model.Session"
-                    });
-                    store.add({email: username});
-                    store.add({session: json.session});   
-                    console.log(store);
+                if(json.status) {
+                    // var mainView = _this.getMainView();
+                    // Ext.Viewport.animateActiveItem(mainView, _this.getTransitionEffect('slide', 'left'));  
+                    // var store = Ext.create('Ext.data.Store', {
+                    //     model: "CareMe.model.Session"
+                    // });
+                    // store.add({email: username});
+                    // store.add({session: json.session});   
+                    // console.log(store);
+                    _this.onLoginSucc(json, username);
                 } else {
                     var text = response.responseText;
                     var json = JSON.parse(text);
@@ -291,34 +300,70 @@ Ext.define('CareMe.controller.UIController', {
     onListItemDisclose: function(list, record) {
     },
     onContactListItemSelected: function(me, idx, record, e, eOpts) {
-
         var _this = this, 
             sheet = _this.getMainView().down('contactaction'),
             store = Ext.getStore('ContactStore');
         
         if (!sheet) {
             sheet = Ext.create('CareMe.view.ContactAction');
-            sheet.setData(store.getAt(idx));
+            sheet.setData(Ext.apply(store.getAt(idx), {'index':idx}));
            _this.getMainView().add(sheet);
         } else {
-            sheet.setData(store.getAt(idx));
+            sheet.setData(Ext.apply(store.getAt(idx), {'index':idx}));
             sheet.show();
         }
     },
+    onCareListItemSelected: function(me, idx, record, e, eOpts) {
+        var _this = this, 
+            sheet = _this.getMainView().down('careaction'),
+            store = Ext.getStore('CareStore');
+        if (!sheet) {
+            sheet = Ext.create('CareMe.view.CareAction');
+
+            sheet.setData(Ext.apply(store.getAt(idx), {'index':idx}));
+           _this.getMainView().add(sheet);
+        } else {
+            sheet.setData(Ext.apply(store.getAt(idx), {'index':idx}));
+            sheet.show();
+        }
+    },
+    onShareListItemSelected: function(me, idx, record, e, eOpts) {
+        var _this = this, 
+            sheet = _this.getMainView().down('shareaction'),
+            store = Ext.getStore('ShareStore'), share = store.getAt(idx);;
+        if (!sheet) {
+            sheet = Ext.create('CareMe.view.ShareAction');
+            sheet.setData(Ext.apply(share, {'index':idx}));
+           _this.getMainView().add(sheet);
+        } else {
+            sheet.setData(Ext.apply(store.getAt(idx), {'index':idx}));
+            sheet.show();
+        }
+
+        //hide approve button
+        if(share.get('status')) {
+            sheet.getAt(0).hide();
+        }
+
+    },
     onActionCareTap: function() {
         var _this = this, sheet = _this.getMainView().down('contactaction'),
-            contact = sheet.getData(), json = contact.getData();
+            contact = sheet.getData(), model = contact.getData();
 
-        //TODO: MOCKED UP       
-        json.sourcePhoneNumber = Ext.application.ownPhoneNumber || _this.getDevicePhoneNumber();
+        //TODO: MOCKED UP
+        model.sourcePhoneNumber = Ext.application.phoneNumber || _this.getDevicePhoneNumber();
         _this.getServerController().addCare(
-            _this.getSessionTokenRequest({'json': Ext.encode(json)}),
+            _this.getSessionTokenRequest({'json': Ext.encode(model)}),
             function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
-                if(json.status === "OK") {
+                if(json.status) {
                     var carestore = Ext.getStore("CareStore");
+                    //var care = new CareMe.model.Care({'phone':model.targetPhoneNumber, 'status':'pending'});
+                    carestore.add(model);
                     carestore.load();
+                    console.log('add care to store');
+                    Ext.Msg.alert('Care',json.message); 
                 } else {
                     Ext.Msg.alert('Error',json.message); 
                 }
@@ -333,18 +378,20 @@ Ext.define('CareMe.controller.UIController', {
     },
     onActionShareTap: function() {
         var _this = this, sheet = _this.getMainView().down('contactaction'),
-            contact = sheet.getData(), json = contact.getData();
+            contact = sheet.getData(), model = contact.getData();
         //TODO : mockup     
-        json.sourcePhoneNumber = Ext.application.ownPhoneNumber || _this.getDevicePhoneNumber();
-        console.log(Ext.encode(json));
+        model.sourcePhoneNumber = Ext.application.phoneNumber || _this.getDevicePhoneNumber();
+        console.log(Ext.encode(model));
         _this.getServerController().addShare(
-            _this.getSessionTokenRequest({'json': Ext.encode(json)}),
+            _this.getSessionTokenRequest({'json': Ext.encode(model)}),
             function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
-                if(json.status === "OK") {
+                if(json.status) {
                     var sharestore = Ext.getStore("ShareStore");
+                    sharestore.add(model);
                     sharestore.load();
+                    Ext.Msg.alert('Share',json.message); 
                 } else {
                     Ext.Msg.alert('Error',json.message); 
                 }
@@ -358,10 +405,100 @@ Ext.define('CareMe.controller.UIController', {
         );
     },
     onActionCareDeleteTap: function() {
-        //TODO -   _this.getServerController().delCare();
+        var _this = this, sheet = _this.getMainView().down('careaction'),
+            contact = sheet.getData(), model = contact.getData();
+            model.sourcePhoneNumber = Ext.application.phoneNumber || _this.getDevicePhoneNumber();            
+        _this.getServerController().delCare(
+            _this.getSessionTokenRequest({'json': Ext.encode(model)}),
+            function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status) {
+                    var carestore = Ext.getStore("CareStore");
+                    carestore.removeAt(contact.index);
+                } else {
+                    Ext.Msg.alert('Error',json.message); 
+                }
+            }, 
+            function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        );        
     },
     onActionShareDeleteTap: function() {
-        //TODO - _this.getServerController().delShare();
+        var _this = this, sheet = _this.getMainView().down('shareaction'),
+            contact = sheet.getData(), model = contact.getData();
+            model.sourcePhoneNumber = Ext.application.phoneNumber || _this.getDevicePhoneNumber();            
+        _this.getServerController().delShare(
+            _this.getSessionTokenRequest({'json': Ext.encode(model)}),
+            function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status) {
+                    var sharestore = Ext.getStore("ShareStore");
+                    sharestore.removeAt(contact.index);
+                } else {
+                    Ext.Msg.alert('Error',json.message); 
+                }
+            }, 
+            function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        );      
+    },
+    onActionShareApproveTap: function() {
+       var _this = this, sheet = _this.getMainView().down('shareaction'),
+            contact = sheet.getData(), model = contact.getData();
+            model.sourcePhoneNumber = Ext.application.phoneNumber || _this.getDevicePhoneNumber();            
+        _this.getServerController().approveShare(
+            _this.getSessionTokenRequest({'json': Ext.encode(model)}),
+            function(response) {
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                if(json.status) {
+                    var sharestore = Ext.getStore("ShareStore");
+                    sharestore.getAt(contact.index).setDirty();
+                    sharestore.sync();
+                } else {
+                    Ext.Msg.alert('Error',json.message); 
+                }
+            }, 
+            function(response) {
+                Ext.Msg.alert('Error','Error while submitting the form');
+                var text = response.responseText;
+                var json = JSON.parse(text);
+                console.log(json);      
+            }
+        );      
+    },
+    onLoginSucc: function(json, username) {
+        console.log('---- application ready ----');
+        var mainView = this.getMainView();
+        Ext.Viewport.animateActiveItem(mainView, this.getTransitionEffect('slide', 'left'));  
+        var store = Ext.getStore("SessionStore");
+        
+        var s = new CareMe.model.Session({'email': username, 'session': json.session});
+        store.clearData();
+        store.add(s);
+        store.sync();     
+        this.prepareStore();
+    },
+    prepareStore: function() {
+        var _this = this;
+        console.log('--- restful care store loading ----');
+        var carestore = Ext.getStore("CareStore");
+        carestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
+        carestore.load();
+        console.log('--- finnish restful care store ----');
+        var sharestore = Ext.getStore("ShareStore");
+        sharestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
+        sharestore.load();   
     },
     getSessionTokenRequest: function(req) {
         var store = Ext.getStore("SessionStore");
@@ -376,7 +513,100 @@ Ext.define('CareMe.controller.UIController', {
         }
         return Ext.apply(token, req);
     },
+    remoteReminder: function() {
+        console.log('---- remote reminder ----');
+        var _this = this, 
+            sheet = _this.getMainView().down('calendaraction');
+        if (!sheet) {
+            sheet = Ext.create('CareMe.view.CarelendarAction');
+           _this.getMainView().add(sheet);
+        } else {
+            sheet.show();
+        }
+        sheet.down('button[id="remindBtn"]').setText('Remind My Loves One').setItemId('remote');
+    },
+    localReminder: function() {
+        console.log('----- local reminder -----');
+        var _this = this, 
+            sheet = _this.getMainView().down('calendaraction');
+        if (!sheet) {
+            sheet = Ext.create('CareMe.view.CarelendarAction');
+           _this.getMainView().add(sheet);
 
+        } else {
+            sheet.show();
+        }
+        sheet.down('button[id="remindBtn"]').setText('Remind Me').setItemId('local');
+    },
+    onClearSearch: function(field) {
+        console.log('--- clear list ----');
+    },
+    onSearchKeyUp: function(field) {
+        console.log(field.getValue());
+
+    },
+    handleReminder: function(ctx) {
+        var _this = this;
+        var fields = this.getMainView().down('reminderform fieldset');
+        var medicine = fields.down('searchfield[id="medicine"]'),
+            dosage = fields.down('textfield[id="dosage"]'),
+            note = fields.down('textfield[id="note"]'),
+            timer = fields.down('timepickerfield[id="timer"]');
+        var sheet = _this.getMainView().down('calendaraction');
+        var carelendar = this.getMainView().down('touchcalendarview');
+        var date = carelendar.getValue();
+        var day = date.getDate(),
+            month = date.getMonth(),
+            year = date.getFullYear(),
+            hhmmapm = timer.getPicker().getValue(window);
+            date.setHours(hhmmapm.getHours());
+            date.setMinutes(hhmmapm.getMinutes());
+
+        var store = Ext.getStore("EventStore");
+        var event = { 
+            'note': note.getValue(),
+            'medicine':medicine.getValue(),
+            'dosage':dosage.getValue(),
+            'unit':'ml',
+            'eventms':date.getTime(),
+            //TODO: how to fix UTC problem?
+            'start':date.toJSON(),
+            'end':date.toJSON(),
+            'css':'red'
+        };
+        var succFn =  function(succResp) {
+                var text = succResp.responseText;
+                var json = JSON.parse(text);
+                if(json.status) {
+
+                }
+            },
+            failFn = function(failResp) {
+                console.log('Unable to addReminder, ignore this error');
+            };
+
+        if(ctx.getItemId() === "local") {
+            store.add(event);
+            _this.getServerController().addReminder(_this.getSessionTokenRequest({'json': Ext.encode(event)}), succFn, failFn);
+            plugins.localNotification.add({
+                'date' : date,
+                'message' : "Take care yourself, remember to take your <h1>medicine</h1>",
+                'ticker' : "You have reminder from CareMe",
+                'repeatDaily' : false,
+                id : date.getTime()
+            });
+
+        } else {
+            _this.getServerController().shareReminder(_this.getSessionTokenRequest({'json': Ext.encode(event)}), succFn, failFn);
+                                    
+        }
+        medicine.setValue('');
+        dosage.setValue('');
+        note.setValue('');
+        
+        carelendar.refresh();
+        sheet.hide();
+    },
     getServerController: function() {
         return this.getApplication().getController('ServerController');
     }

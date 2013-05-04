@@ -6,7 +6,17 @@ Ext.define('CareMe.view.ShareAction', {
     xtype: 'shareaction',
 
     config: {
-        items: [{
+        items: [
+            {
+                text: 'Approve',
+                ui  : 'action',
+                handler: function(e, b) {
+                    var sheet = this.getParent();
+                    sheet.setData({});
+                    sheet.hide();
+                } 
+            }, 
+            {
                 text: 'Delete',
                 ui  : 'action',
                 handler: function(e, b) {

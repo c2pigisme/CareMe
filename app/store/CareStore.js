@@ -11,11 +11,12 @@ Ext.define('CareMe.store.CareStore', {
         storeId: 'CareStore',
         proxy: {
             type: 'jsonp',
-            url: 'http://localhost:9000/store/care',
+            url: 'http://localhost:9000/contact/care',
 	        reader: {
 	            type: 'json',
 	            rootProperty: "body"
 	        }            
         }
     }
+
 });

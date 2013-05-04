@@ -11,7 +11,7 @@ Ext.define('CareMe.store.ShareStore', {
         storeId: 'ShareStore',
         proxy: {
             type: 'jsonp',
-            url: 'http://localhost:9000/store/share',
+            url: 'http://localhost:9000/contact/share',
 	        reader: {
 	            type: 'json',
 	            rootProperty: "body"
