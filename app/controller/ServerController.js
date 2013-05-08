@@ -98,7 +98,7 @@ Ext.define('CareMe.controller.ServerController', {
             failure : onFailure     
         });              
     },
-    shareReminder: function(params, onSuccess, onFailure) {
+    careReminder: function(params, onSuccess, onFailure) {
         var _this = this;
         Ext.Ajax.request({
             url: _this.getURL('/events'),
@@ -107,8 +107,8 @@ Ext.define('CareMe.controller.ServerController', {
             success: onSuccess, 
             failure : onFailure     
         });              
-    },    
-    handleGCM: function(e) {
+    },
+    routeGCM: function(e) {
         //UPDATE STORE
         //UPDATE CARELENDER
         //UPDATE ...

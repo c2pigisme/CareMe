@@ -1,6 +1,5 @@
 Ext.define('CareMe.view.CarelendarAction', {
-
-    extend: 'Ext.ActionSheet',
+    extend: 'Ext.Panel',
     xtype: 'calendaraction',
     requires:['CareMe.view.ReminderForm'],
     config: {
@@ -21,24 +20,16 @@ Ext.define('CareMe.view.CarelendarAction', {
                             text:'Cancel',
                             ui: 'action',
                             handler: function(ctx) {
-                                ctx.up('calendaraction').hide();
+                                //TODO - reset all field
                             }
-                        },
-                        {
-                            xtype:'spacer',
-                            width:'30px'
-                        },              
+                        },          
                         {
                             xtype:'button',
                             id:'remindBtn',
                             ui:'confirm',
-                            handler: function(ctx) {}
+                            text:'Remind'
                         }
                     ]
-                },            
-            {
-                xtype:'spacer',
-                height:'20px'
-        }]
+                }]
     }
 });

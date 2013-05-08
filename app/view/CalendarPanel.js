@@ -29,18 +29,20 @@ Ext.define('CareMe.view.CalendarPanel', {
     			pack: 'center',
     			type: 'hbox'
 			},
-			items:[{
+
+			items:[
+			{
 	    		xtype:'button',
-	    		text: 'A',
+	    		text: 'Med Minder',
 	    		align:'middle',
-	    		itemId:'local',
+	    		itemId:'med',
 	    		handler:function(ctx) {    			
 	    		}
 	    	},
 	    	{
 	    		xtype:'button',
-	    		text: 'B',
-	    		itemId:'remote',
+	    		text: 'Treatment Minder',
+	    		itemId:'treatment',
 	    		handler:function(ctx) {				
 	    		}
 	    	}]

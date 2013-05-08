@@ -21,7 +21,8 @@ Ext.define('CareMe.model.Care', {
                     return myname;
                 }
         	},
-            {name: 'status', type:'number'}
+            {name: 'status', type:'number'},
+            {name: 'email', type:'string'}
          ]
     }
 });

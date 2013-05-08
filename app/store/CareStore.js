@@ -15,7 +15,7 @@ Ext.define('CareMe.store.CareStore', {
 	        reader: {
 	            type: 'json',
 	            rootProperty: "body"
-	        }            
+	        }
         }
     }
 

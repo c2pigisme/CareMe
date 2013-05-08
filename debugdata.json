@@ -400,6 +400,44 @@
         "urls":[
 
         ]
+      },
+      {
+        "id":"3129981",
+        "displayName":"Real Steel",
+        "name":{
+          "formatted":"Mr Tan",
+          "familyName":"Real",
+          "givenName":"Steel",
+          "middleName":"",
+          "honorificPrefix":"Mr",
+          "honorificSuffix":""
+        },
+        "nickname":"kb",
+        "phoneNumbers":[
+          {
+            "type":"mobile",
+            "value":"100000001",
+            "pref":true
+          }
+        ],
+        "emails":[
+          {
+            "type":"work",
+            "value":"steel@work.com",
+            "pref":true
+          }
+        ],
+        "birthday":"1980-01-01",
+        "note":"Test data from phonegapdesktop",
+        "photos":[
+
+        ],
+        "categories":[
+
+        ],
+        "urls":[
+
+        ]
       }
       ]
     ]

@@ -2,24 +2,27 @@ Ext.define('CareMe.controller.UIController', {
     extend: 'Ext.app.Controller',
     config: {
         refs: {
+            mainPanel:'mainpanel',
             mainView: 'mainview',
             loginPanel: 'loginpanel',
             registerPanel: 'registerpanel',
             contactlist: 'contactlist list',
             carelendar: 'calendarpanel',
+            calendarAction: 'calendaraction',
+            mapAction: 'mapaction',
         },
 
         control: {
-            "mainview button[text='iCare']": {
+            "mainview image[itemId='iCare']": {
                 tap: 'onCareTap'
             },
-            "mainview button[text='Profile']": {
+            "mainview image[itemId='profile']": {
                 tap: 'onProfileButtonTap'
             },
-            "mainview button[text='Carelendar']": {
+            "mainview image[itemId='carelendar']": {
                 tap: 'onCarelendarButtonTap'
             },
-            "mainview button[text='History']": {
+            "mainview image[itemId='history']": {
                 tap: 'onHistoryButtonTap'
             },
             "loginpanel button[itemId='logInButton']": {
@@ -59,11 +62,11 @@ Ext.define('CareMe.controller.UIController', {
            "shareaction button[text='Approve']": {
                 tap: 'onActionShareApproveTap'
             },
-            "calendarpanel button[itemId='remote']":{
-                tap: 'remoteReminder'  
+            "calendarpanel button[itemId='treatment']":{
+                tap: 'treatmentMinder'  
             },
-            "calendarpanel button[itemId='local']":{
-                tap: 'localReminder'
+            "calendarpanel button[itemId='med']":{
+                tap: 'medMinder'
             },
             "reminderform textfield"  : {
                 clearfield : 'onClearSearch',
@@ -71,7 +74,16 @@ Ext.define('CareMe.controller.UIController', {
             },
             "calendaraction button[id='remindBtn']" : {
                 tap: 'handleReminder'
-            }
+            },
+            "calendaraction container button[text='Cancel']" : {
+                tap: 'handleReminderCancel'
+            },
+            "mapaction container button[text='Cancel']" : {
+                tap: 'handleMapMinderCancel'
+            },            
+            "autocompletelist" : {
+                itemtap: 'autocompleteItemTap'
+            }            
         }
     },
     getDevicePhoneNumber : function() {
@@ -92,7 +104,6 @@ Ext.define('CareMe.controller.UIController', {
 
     onCarelendarButtonTap: function(button, e, eOpts) {
         var me = this,calendar;
-        console.log(Ext.eventStore);
         Ext.eventStore = Ext.getStore('CarelendarStore');        
        // calendar = Ext.create('CareMe.view.CalendarPanel', {title: 'Calendar'});
         me.getMainView().push({xtype: 'calendarpanel'});
@@ -357,9 +368,9 @@ Ext.define('CareMe.controller.UIController', {
             function(response) {
                 var text = response.responseText;
                 var json = JSON.parse(text);
+                console.log(json);
                 if(json.status) {
                     var carestore = Ext.getStore("CareStore");
-                    //var care = new CareMe.model.Care({'phone':model.targetPhoneNumber, 'status':'pending'});
                     carestore.add(model);
                     carestore.load();
                     console.log('add care to store');
@@ -479,8 +490,8 @@ Ext.define('CareMe.controller.UIController', {
     },
     onLoginSucc: function(json, username) {
         console.log('---- application ready ----');
-        var mainView = this.getMainView();
-        Ext.Viewport.animateActiveItem(mainView, this.getTransitionEffect('slide', 'left'));  
+        var mainPanel = this.getMainView();
+        Ext.Viewport.animateActiveItem(mainPanel, this.getTransitionEffect('slide', 'left'));  
         var store = Ext.getStore("SessionStore");
         
         var s = new CareMe.model.Session({'email': username, 'session': json.session});
@@ -491,11 +502,11 @@ Ext.define('CareMe.controller.UIController', {
     },
     prepareStore: function() {
         var _this = this;
-        console.log('--- restful care store loading ----');
+        console.log('--- restful care store loading ----' + Ext.application.phoneNumber);
         var carestore = Ext.getStore("CareStore");
         carestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
         carestore.load();
-        console.log('--- finnish restful care store ----');
+        console.log('--- finnish restful care store ----' + Ext.application.phoneNumber);
         var sharestore = Ext.getStore("ShareStore");
         sharestore.getProxy().setExtraParams(_this.getSessionTokenRequest({'phoneNumber':Ext.application.phoneNumber}));
         sharestore.load();   
@@ -503,110 +514,205 @@ Ext.define('CareMe.controller.UIController', {
     getSessionTokenRequest: function(req) {
         var store = Ext.getStore("SessionStore");
         store.load();
+
+        //TODO: remove mock up
         var session = store.first();         
+        console.log('---- restore session ----');
+        console.log(session);
         var token = { 
             'email':session.get("email"),
             'session': session.get("session")  
-        };
+        };     
         if(typeof req === 'undefined') {
             req = {};
         }
         return Ext.apply(token, req);
     },
-    remoteReminder: function() {
-        console.log('---- remote reminder ----');
+    treatmentMinder: function() {
+        console.log('---- treatment minder -----');
         var _this = this, 
-            sheet = _this.getMainView().down('calendaraction');
-        if (!sheet) {
-            sheet = Ext.create('CareMe.view.CarelendarAction');
-           _this.getMainView().add(sheet);
-        } else {
-            sheet.show();
-        }
-        sheet.down('button[id="remindBtn"]').setText('Remind My Loves One').setItemId('remote');
+            sheet = _this.getMapAction();
+        Ext.Viewport.animateActiveItem(sheet, _this.getTransitionEffect('slide', 'up'));
     },
-    localReminder: function() {
-        console.log('----- local reminder -----');
+    medMinder: function() {
         var _this = this, 
-            sheet = _this.getMainView().down('calendaraction');
-        if (!sheet) {
-            sheet = Ext.create('CareMe.view.CarelendarAction');
-           _this.getMainView().add(sheet);
-
-        } else {
-            sheet.show();
-        }
-        sheet.down('button[id="remindBtn"]').setText('Remind Me').setItemId('local');
+            sheet = _this.getCalendarAction();
+        Ext.Viewport.animateActiveItem(sheet, _this.getTransitionEffect('slide', 'up'));  
     },
     onClearSearch: function(field) {
-        console.log('--- clear list ----');
+        var autocomplete = Ext.Viewport.down('autocompletelist');
+            autocomplete.setHidden(true);
+            Ext.Viewport.remove(autocomplete);        
+    },
+    autocompleteItemTap: function(e) {
+        var _this = this;
+        new Ext.util.DelayedTask(function () {
+            var value = e.getSelection()[0].data.name;
+            var field = _this.getCalendarAction().down('searchfield[id="medicine"]');
+            field.setValue(value);            
+            e.setHidden(true);  
+        }).delay(100);
     },
     onSearchKeyUp: function(field) {
+        var meds = [];
+        var autocomplete = Ext.Viewport.down('autocompletelist');
+        if(!autocomplete){
+            autocomplete = Ext.create('CareMe.view.AutocompleteList',{'hidden':true, 'hideOnMaskTap':true,'cls':'autocomplete'});
+            autocomplete.setHidden(true);
+            Ext.Viewport.add(autocomplete);
+        }
+
+        if(field.getValue() === "") {
+            autocomplete.setHidden(true);
+            Ext.Viewport.remove(autocomplete);
+            return;
+        }
+        function querySuccess(tx, results) {
+            meds = [];
+            if(results.rows.length === 0) {
+                autocomplete.setHidden(true);                
+                Ext.Viewport.remove(autocomplete);
+                return;
+            }
+
+            console.log("Returned rows = " + results.rows.length);
+            var list = results.rows;
+            for(i=0; i<list.length; i++) {
+           
+                 meds.push(list.item(i));
+            }
+            autocomplete.showBy(field/*, "tr-br?"*/);   
+            autocomplete.setData(meds);
+            autocomplete.refresh();
+            autocomplete.setHidden(false);
+            Ext.Viewport.add(autocomplete);
+        }
+
+        function queryDB(tx) {
+         tx.executeSql('SELECT * FROM medtbl where name like ?', [field.getValue()+'%'], querySuccess, errorCB);
+        }
+        //var store = Ext.getStore('MedStore');
+        //store.clearData();
+
+        function errorCB(err) {
+            console.log("Error processing SQL: "+err.code);
+        }
+
+        var db = window.openDatabase("meddb", "1.0", "Med Database", 200000);
+        db.transaction(queryDB, errorCB);
+        var autocomplete = Ext.Viewport.down('autocompletelist');
+
         console.log(field.getValue());
+        debug = field;
 
     },
     handleReminder: function(ctx) {
+        var getTimerMS = function(oldDate, newDate) {
+            console.log('new date ms : ' + newDate.getTime());
+            console.log('old date ms : ' + oldDate.getTime());
+            return newDate.getTime() - oldDate.getTime();
+        };
         var _this = this;
-        var fields = this.getMainView().down('reminderform fieldset');
+
+        var fields = this.getCalendarAction().down('reminderform fieldset');
         var medicine = fields.down('searchfield[id="medicine"]'),
-            dosage = fields.down('textfield[id="dosage"]'),
+            dosage = fields.down('selectfield[id="dosage"]'),
+            dosageUnit = fields.down('segmentedbutton[itemId="dosageUnit"]'),
             note = fields.down('textfield[id="note"]'),
-            timer = fields.down('timepickerfield[id="timer"]');
+            timer = fields.down('timepickerfield[id="timer"]'),
+            remindType = fields.down('segmentedbutton[itemId="remindType"]'),
+            selection = fields.down('selectfield[id="carelist"]');
+
         var sheet = _this.getMainView().down('calendaraction');
         var carelendar = this.getMainView().down('touchcalendarview');
-        var date = carelendar.getValue();
-        var day = date.getDate(),
-            month = date.getMonth(),
-            year = date.getFullYear(),
+        var selectedDate = carelendar.getValue();
+        var day = selectedDate.getDate(),
+            month = selectedDate.getMonth(),
+            year = selectedDate.getFullYear(),
             hhmmapm = timer.getPicker().getValue(window);
-            date.setHours(hhmmapm.getHours());
-            date.setMinutes(hhmmapm.getMinutes());
+            selectedDate.setHours(hhmmapm.getHours());
+            selectedDate.setMinutes(hhmmapm.getMinutes());
 
         var store = Ext.getStore("EventStore");
-        var event = { 
+
+        var event = {
             'note': note.getValue(),
             'medicine':medicine.getValue(),
             'dosage':dosage.getValue(),
             'unit':'ml',
-            'eventms':date.getTime(),
+            'eventms':selectedDate.getTime(),
             //TODO: how to fix UTC problem?
-            'start':date.toJSON(),
-            'end':date.toJSON(),
+            'start':selectedDate.toJSON(),
+            'end':selectedDate.toJSON(),
             'css':'red'
         };
-        var succFn =  function(succResp) {
-                var text = succResp.responseText;
-                var json = JSON.parse(text);
-                if(json.status) {
 
-                }
-            },
-            failFn = function(failResp) {
-                console.log('Unable to addReminder, ignore this error');
-            };
+        var succFn = function() {
+            var text = response.responseText;
+            var json = JSON.parse(text);
+        }, failFn = function() {
 
-        if(ctx.getItemId() === "local") {
+        }
+        debug = remindType;
+        if(remindType.getActiveItem().getItemId() === "myself") {
+            console.log('local based reminder ');
+            var now = new Date();
+            var toMs = getTimerMS(now, selectedDate);
+            console.log(' selected Date --->' + selectedDate);
+            console.log(' toms --->' + toMs);
+            //start timer
+            var timerId = setTimeout(function() {
+                console.log('Execute notification function');
+                //PERERSIST EVENT LIST (A TODO LIST)
+                var todoStore = Ext.getStore('TodoStore');
+                todoStore.add({
+                    'title': medicine.getValue(),
+                    'startAt': now.getTime(),
+                    'completeAt': selectedDate.getTime(),
+                    'isDone':false,
+                    'id': now.getTime()
+                });
+            }, toMs);
+            event.timerId = timerId;
             store.add(event);
-            _this.getServerController().addReminder(_this.getSessionTokenRequest({'json': Ext.encode(event)}), succFn, failFn);
+
             plugins.localNotification.add({
-                'date' : date,
+                'date' : selectedDate,
                 'message' : "Take care yourself, remember to take your <h1>medicine</h1>",
                 'ticker' : "You have reminder from CareMe",
                 'repeatDaily' : false,
-                id : date.getTime()
+                id : now.getTime()
             });
+            _this.getServerController().addReminder(_this.getSessionTokenRequest({'json': Ext.encode(event)}), succFn, failFn);
 
         } else {
             _this.getServerController().shareReminder(_this.getSessionTokenRequest({'json': Ext.encode(event)}), succFn, failFn);
-                                    
         }
         medicine.setValue('');
         dosage.setValue('');
         note.setValue('');
-        
+
         carelendar.refresh();
-        sheet.hide();
+        Ext.Viewport.animateActiveItem(_this.getMainView(), _this.getTransitionEffect('slide', 'down'));  
     },
+    handleReminderCancel: function(ctx) {
+      var fields = this.getCalendarAction().down('reminderform fieldset');
+      var medicine = fields.down('searchfield[id="medicine"]'),
+          dosage = fields.down('textfield[id="dosage"]'),
+          note = fields.down('textfield[id="note"]'),
+          timer = fields.down('timepickerfield[id="timer"]');
+
+        dosage.setValue('');
+        medicine.setValue('');
+        note.setValue('');
+        Ext.Viewport.animateActiveItem(this.getMainView(), this.getTransitionEffect('slide', 'down'));          
+
+    }, 
+    handleMapMinderCancel: function(ctx) {
+        var fields = this.getCalendarAction().down('mapform fieldset');
+        Ext.Viewport.animateActiveItem(this.getMainView(), this.getTransitionEffect('slide', 'down'));          
+
+    },     
     getServerController: function() {
         return this.getApplication().getController('ServerController');
     }

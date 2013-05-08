@@ -41,6 +41,10 @@ Ext.define("CareMe.model.CarelendarEvent", {
 		{
 			name: 'css',
 			type: 'string'
+		},
+		{
+			name: 'timerId',
+			type: 'number'
 		}]
 	}
 });

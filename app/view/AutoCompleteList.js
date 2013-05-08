@@ -1,6 +1,6 @@
 Ext.define('CareMe.view.AutocompleteList', {
     extend: 'Ext.dataview.List',
-    xtype: autocompletelist,
+    xtype: 'autocompletelist',
     config: {
      store : 'medicines',
      left: 0,
